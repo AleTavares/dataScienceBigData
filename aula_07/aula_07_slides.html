@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aula 7 — Spec-Driven para Projetos de Dados | Mackenzie</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>*{margin:0;padding:0;box-sizing:border-box;}:root{--red:#CC092F;--red-dark:#9E0724;--red-light:#F9E8EB;--gold:#C4A35A;--white:#FFFFFF;--gray-50:#FAFAFA;--gray-200:#E4E4E7;--gray-500:#71717A;--gray-700:#3F3F46;--gray-900:#18181B;}
+html,body{height:100%;overflow:hidden;font-family:"Inter",sans-serif;}body{background:var(--gray-900);}
+.slide{display:none;position:absolute;inset:0;width:100vw;height:100vh;padding:60px 80px;flex-direction:column;background:var(--white);color:var(--gray-900);overflow-y:auto;}
+.slide.active{display:flex;}.slide::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--red),var(--red-dark));}
+.slide .mk{position:absolute;top:18px;right:40px;font-size:.7em;font-weight:700;letter-spacing:2px;color:var(--red);}
+.slide.cover{background:linear-gradient(145deg,var(--red),var(--red-dark));color:var(--white);align-items:center;justify-content:center;text-align:center;padding:80px;}.slide.cover::before{display:none;}
+.slide.cover h1{font-size:2.8em;font-weight:800;line-height:1.2;margin-bottom:20px;}.slide.cover .sub{font-size:1.1em;font-weight:300;opacity:.9;margin-bottom:4px;}
+.slide.cover .meta{margin-top:28px;display:inline-flex;gap:16px;background:rgba(255,255,255,.15);padding:10px 24px;border-radius:24px;font-size:.9em;}
+.slide.section{background:var(--gray-900);color:var(--white);align-items:center;justify-content:center;text-align:center;}.slide.section::before{background:var(--gold);}
+.slide.section h2{font-size:2.3em;font-weight:700;margin-bottom:12px;}.slide.section p{font-size:1.05em;color:var(--gray-200);max-width:560px;}
+.slide h2{font-size:1.65em;font-weight:700;color:var(--red);margin-bottom:18px;}.slide h3{font-size:1.1em;font-weight:600;color:var(--gray-700);margin:14px 0 6px;}
+.slide p{font-size:.97em;line-height:1.75;color:var(--gray-700);margin-bottom:8px;}.slide ul,.slide ol{margin:6px 0 10px 26px;}
+.slide li{font-size:.95em;line-height:1.7;color:var(--gray-700);margin-bottom:5px;}.slide strong{color:var(--gray-900);}
+.slide table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.87em;}.slide th{background:var(--red);color:var(--white);padding:9px 13px;text-align:left;font-weight:600;}
+.slide td{padding:8px 13px;border-bottom:1px solid var(--gray-200);}.slide tr:nth-child(even) td{background:var(--gray-50);}
+.slide blockquote{border-left:4px solid var(--gold);background:var(--gray-50);padding:12px 18px;margin:12px 0;border-radius:0 6px 6px 0;font-style:italic;color:var(--gray-700);font-size:.93em;}
+.slide pre{background:var(--gray-900);color:#e4e4e7;padding:16px 20px;border-radius:8px;font-family:monospace;font-size:.82em;line-height:1.6;margin:12px 0;overflow-x:auto;border-left:4px solid var(--red);}
+.cols{display:flex;gap:28px;margin:10px 0;}.cols .col{flex:1;}
+.hl{background:var(--red-light);border:1px solid var(--red);padding:12px 18px;border-radius:8px;margin:10px 0;}
+.ex{background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:16px 20px;margin:8px 0;}.ex h3{color:#15803d;margin-top:0;font-size:1em;}
+.phase{display:flex;gap:12px;margin:12px 0;}
+.pbox{flex:1;border-radius:8px;padding:14px;text-align:center;}
+.pbox.p1{background:#dbeafe;border:2px solid #2563eb;}.pbox.p2{background:#fefce8;border:2px solid #ca8a04;}.pbox.p3{background:#dcfce7;border:2px solid #16a34a;}
+.pbox h3{font-size:1em;margin:0 0 6px;}
+.nav{position:fixed;bottom:24px;right:36px;display:flex;gap:8px;z-index:999;}
+.nav button{background:var(--red);color:var(--white);border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1em;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.nav button:hover{background:var(--red-dark);}
+.counter{position:fixed;bottom:28px;left:36px;color:var(--gray-500);font-size:.8em;font-weight:500;z-index:999;}
+.progress{position:fixed;bottom:0;left:0;height:3px;background:var(--red);transition:width .3s;z-index:999;}</style></head>
+<body><div id="deck">
+
+<div class="slide cover active">
+<h1>Spec-Driven: Especificação<br>como Base de Projetos de Dados</h1>
+<p class="sub">Data Science e Big Data — MBA Mackenzie</p>
+<p class="sub">Universidade Presbiteriana Mackenzie</p>
+<div class="meta"><span>📅 Aula 7</span><span>⏱️ 4 horas</span><span>📝 Spec-Driven</span></div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🎯 Objetivos da Aula</h2><ol>
+<li>Explicar o que é a abordagem Spec-Driven e por que ela reduz risco em projetos de dados</li>
+<li>Diferenciar as 3 fases da especificação: Requisitos → Design → Tarefas</li>
+<li>Escrever requisitos claros e verificáveis com critérios de aceitação</li>
+<li>Avaliar por que a maioria dos projetos de dados falha por ausência de especificação</li>
+<li>Estruturar a especificação de um projeto de dados antes da execução</li>
+</ol></div>
+
+<div class="slide section"><h2>Parte 1</h2><p>Por que especificar antes de executar</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>⚠️ O Problema do "Execução Primeiro"</h2>
+<table>
+<tr><th>Sintoma</th><th>O que acontece</th><th>Custo</th></tr>
+<tr><td>Começar pelos dados, não pela pergunta</td><td>Pipeline construído sem propósito de negócio claro</td><td>Meses de trabalho sem decisão tomada</td></tr>
+<tr><td>Requisitos implícitos na cabeça de uma pessoa</td><td>Cada integrante entende o projeto de forma diferente</td><td>Retrabalho, conflitos, entregas que não servem</td></tr>
+<tr><td>Sem critério de "pronto"</td><td>Ninguém sabe quando o projeto está concluído</td><td>Escopo infinito, orçamento estourado</td></tr>
+<tr><td>Design decidido durante a execução</td><td>Decisões de arquitetura sob pressão</td><td>Dívida técnica difícil de reverter</td></tr>
+</table>
+<div class="hl">A maioria dos projetos de dados que fracassa não falha por limitação técnica — falha porque ninguém definiu com clareza <strong>o que</strong> deveria ser construído e <strong>por quê</strong>.</div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📝 A Proposta do Spec-Driven</h2>
+<p>Spec-Driven significa produzir uma <strong>especificação explícita e acordada antes de executar</strong>. A especificação é um documento vivo que:</p>
+<ul>
+<li>Formaliza <strong>o que</strong> será construído (requisitos) antes de decidir <strong>como</strong> (design)</li>
+<li>Estabelece acordo entre negócio e time técnico sobre o resultado esperado</li>
+<li>Permite revisar e corrigir rumo <strong>antes</strong> de gastar recursos na execução</li>
+<li>Serve como contrato de verificação: o projeto está pronto quando atende à especificação</li>
+</ul>
+<blockquote>Em projetos de dados, especificar antes de executar é o equivalente a definir a pergunta de negócio antes de coletar dados (Aula 2) e priorizar fontes antes de ingerir (Aula 4). Spec-Driven amarra tudo em um processo repetível.</blockquote></div>
+
+<div class="slide section"><h2>Parte 2</h2><p>As 3 fases da especificação</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🔄 Requisitos → Design → Tarefas</h2>
+<div class="phase">
+<div class="pbox p1"><h3>1. REQUISITOS</h3><strong>"O quê e por quê?"</strong><p style="font-size:.85em;margin-top:6px;">Define o problema de negócio e o resultado esperado — sem decidir a solução</p></div>
+<div class="pbox p2"><h3>2. DESIGN</h3><strong>"Como?"</strong><p style="font-size:.85em;margin-top:6px;">Define a solução técnica e a arquitetura a partir dos requisitos acordados</p></div>
+<div class="pbox p3"><h3>3. TAREFAS</h3><strong>"Em que passos?"</strong><p style="font-size:.85em;margin-top:6px;">Decompõe o design em plano de execução incremental e verificável</p></div>
+</div>
+<div class="hl">Cada fase só avança quando há <strong>acordo</strong> sobre a anterior. Isso evita construir a solução errada rápido.</div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📋 O que Cada Fase Responde</h2>
+<table>
+<tr><th>Fase</th><th>Perguntas que responde</th><th>Conecta com</th></tr>
+<tr><td><strong>Requisitos</strong></td><td>Qual pergunta de negócio? Quem são os usuários? Quais critérios de aceitação? Quais restrições (prazo, LGPD, qualidade)?</td><td>Aula 2 (pergunta de negócio)</td></tr>
+<tr><td><strong>Design</strong></td><td>Qual arquitetura (DW/Lake/Lakehouse)? Quais fontes ingerir e em que ordem? Como organizar as camadas Medallion? Como garantir qualidade e governança?</td><td>Aulas 3, 4, 5 e 6</td></tr>
+<tr><td><strong>Tarefas</strong></td><td>Quais passos concretos? Em que ordem (dependências)? Como medir conclusão? Como entregar valor incremental?</td><td>Execução do projeto</td></tr>
+</table></div>
+
+<div class="slide section"><h2>Parte 3</h2><p>Escrevendo bons requisitos</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>✍️ Estrutura de um Requisito</h2>
+<p>Um bom requisito é <strong>claro, verificável e rastreável</strong>. Um formato amplamente usado associa história de usuário a critérios de aceitação:</p>
+<pre>História do usuário:
+Como [papel], quero [funcionalidade], para que [benefício].
+
+Critérios de aceitação:
+1. QUANDO [evento] ENTÃO o sistema DEVE [resposta esperada]
+2. SE [condição] ENTÃO o sistema DEVE [comportamento]</pre>
+<div class="hl">O critério de aceitação transforma uma intenção vaga em um contrato objetivo entre negócio e técnico. "Rápido" vira "carrega em menos de 3 segundos em 95% das consultas".</div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>✍️ Exemplo Aplicado a Dados</h2>
+<blockquote><strong>História:</strong> Como gestor comercial, quero um indicador diário de inadimplência por região, para que eu possa redirecionar a equipe de cobrança antes do fechamento do mês.</blockquote>
+<p><strong>Critérios de aceitação:</strong></p>
+<ol>
+<li>QUANDO o painel for aberto ENTÃO o sistema DEVE exibir a inadimplência consolidada com, no máximo, 24 horas de defasagem</li>
+<li>SE uma região não tiver dados no dia ENTÃO o sistema DEVE sinalizar "dado indisponível" em vez de exibir zero</li>
+<li>QUANDO um valor divergir da fonte oficial ENTÃO o sistema DEVE permitir rastrear o dado até a origem (lineage)</li>
+</ol></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>✅ Características de um Bom Requisito</h2>
+<table>
+<tr><th>Característica</th><th>Pergunta de verificação</th></tr>
+<tr><td><strong>Claro</strong></td><td>Duas pessoas leem e entendem a mesma coisa?</td></tr>
+<tr><td><strong>Verificável</strong></td><td>É possível testar objetivamente se foi atendido?</td></tr>
+<tr><td><strong>Rastreável</strong></td><td>Está ligado a uma necessidade de negócio concreta?</td></tr>
+<tr><td><strong>Viável</strong></td><td>Pode ser atendido com os dados e recursos disponíveis?</td></tr>
+<tr><td><strong>Não ambíguo</strong></td><td>Evita termos vagos como "rápido", "amigável", "robusto"?</td></tr>
+</table></div>
+
+<div class="slide section"><h2>💬 Exercício Discursivo</h2><p>Caso real: Especificando um projeto de dados do zero</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>💊 Rede de Farmácias — Reposição de Estoque Orientada por Dados</h2>
+<p>Rede com <strong>400 lojas</strong> perde vendas por rupturas de estoque e imobiliza capital com excesso de produtos de baixo giro. Hoje, cada gerente faz pedidos com base na própria experiência e em uma planilha semanal.</p>
+<p>A diretoria quer um projeto de dados que apoie a reposição de forma centralizada. <strong>Não há especificação ainda</strong> — apenas o desejo da diretoria e orçamento aprovado. O time foi instruído a não construir nada sem uma especificação clara.</p>
+<p><strong>Fontes disponíveis:</strong> histórico de vendas por loja/produto (PDV), posição de estoque (ERP), calendário comercial e feriados, dados climáticos por região e histórico de rupturas registrado manualmente pelos gerentes.</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>💬 Exercício em Grupo — Questões</h2>
+<p><strong>Grupos de 4–5 pessoas · 70 minutos</strong></p>
+<div class="ex">
+<h3>Questão 1 — Fase de Requisitos (25 min)</h3>
+<p>Qual é a pergunta de negócio central? Escreva ao menos 2 requisitos no formato "história + critérios de aceitação" verificáveis. Quais são as restrições (prazo, qualidade, LGPD, dependência de dados manuais)?</p></div>
+<div class="ex">
+<h3>Questão 2 — Fase de Design (25 min)</h3>
+<p>Qual arquitetura é adequada e por quê? Quais fontes entram no MVP (framework da Aula 4)? Que problemas de qualidade (Aula 5) o grupo antecipa, dado que algumas fontes são preenchidas manualmente?</p></div>
+<div class="ex">
+<h3>Questão 3 — Transferência para o seu setor (20 min)</h3>
+<p>Escolha uma iniciativa de dados do setor do grupo: escreva a pergunta de negócio e um requisito completo, defina a primeira tarefa concreta e verificável, e explique que problema a especificação prévia teria evitado.</p></div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📌 Síntese do Curso</h2>
+<table>
+<tr><th>Aula</th><th>Tema</th><th>Conceito central</th></tr>
+<tr><td>1</td><td>Big Data e seus desafios</td><td>Os 5 V's; OLTP vs. OLAP</td></tr>
+<tr><td>2</td><td>Data Science como vantagem</td><td>Ciclo de vida analítico; 4 tipos de análise</td></tr>
+<tr><td>3</td><td>Arquiteturas de dados</td><td>DW × Data Lake × Lakehouse; Medallion</td></tr>
+<tr><td>4</td><td>Construindo um Data Lake</td><td>Priorização de fontes; governança mínima</td></tr>
+<tr><td>5</td><td>Qualidade de dados</td><td>6 dimensões; CODB; ciclo de DQ</td></tr>
+<tr><td>6</td><td>Governança e LGPD</td><td>Papéis; bases legais; Data Mesh</td></tr>
+<tr><td>7</td><td>Spec-Driven para dados</td><td>Requisitos → Design → Tarefas; critérios verificáveis</td></tr>
+</table></div>
+
+<div class="slide cover"><h1>Até a Aula 8! 🎓</h1><p class="sub">Apresentação do Trabalho Final</p><p class="sub" style="opacity:.7;margin-top:16px;">Entrega do documento escrito + apresentação oral</p></div>
+
+</div>
+<div class="nav"><button onclick="prev()">◀</button><button onclick="next()">▶</button></div>
+<div class="counter" id="counter"></div><div class="progress" id="progress"></div>
+<script>
+const slides=document.querySelectorAll(".slide");let cur=0;const total=slides.length;
+function show(n){slides[cur].classList.remove("active");cur=((n%total)+total)%total;slides[cur].classList.add("active");document.getElementById("counter").textContent=(cur+1)+" / "+total;document.getElementById("progress").style.width=((cur+1)/total*100)+"%";}
+function next(){show(cur+1);}function prev(){show(cur-1);}
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"||e.key===" "||e.key==="PageDown"){e.preventDefault();next();}if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();prev();}if(e.key==="Home"){e.preventDefault();show(0);}if(e.key==="End"){e.preventDefault();show(total-1);}});
+let tx=0;document.addEventListener("touchstart",e=>{tx=e.touches[0].clientX;});document.addEventListener("touchend",e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?next():prev();}});show(0);
+</script></body></html>

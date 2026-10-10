@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 2 — Data Science como Vantagem Competitiva | Mackenzie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--red:#CC092F;--red-dark:#9E0724;--red-light:#F9E8EB;--gold:#C4A35A;--white:#FFFFFF;--gray-50:#FAFAFA;--gray-200:#E4E4E7;--gray-500:#71717A;--gray-700:#3F3F46;--gray-900:#18181B;}
+html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}body{background:var(--gray-900);}
+.slide{display:none;position:absolute;inset:0;width:100vw;height:100vh;padding:60px 80px;flex-direction:column;background:var(--white);color:var(--gray-900);overflow-y:auto;}
+.slide.active{display:flex;}.slide::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--red),var(--red-dark));}
+.slide .mk{position:absolute;top:18px;right:40px;font-size:.7em;font-weight:700;letter-spacing:2px;color:var(--red);}
+.slide.cover{background:linear-gradient(145deg,var(--red),var(--red-dark));color:var(--white);align-items:center;justify-content:center;text-align:center;padding:80px;}
+.slide.cover::before{display:none;}.slide.cover h1{font-size:2.8em;font-weight:800;line-height:1.2;margin-bottom:20px;}
+.slide.cover .sub{font-size:1.1em;font-weight:300;opacity:.9;margin-bottom:4px;}
+.slide.cover .meta{margin-top:28px;display:inline-flex;gap:16px;background:rgba(255,255,255,.15);padding:10px 24px;border-radius:24px;font-size:.9em;}
+.slide.section{background:var(--gray-900);color:var(--white);align-items:center;justify-content:center;text-align:center;}
+.slide.section::before{background:var(--gold);}.slide.section h2{font-size:2.3em;font-weight:700;margin-bottom:12px;}
+.slide.section p{font-size:1.05em;color:var(--gray-200);max-width:560px;}
+.slide h2{font-size:1.65em;font-weight:700;color:var(--red);margin-bottom:18px;}
+.slide h3{font-size:1.1em;font-weight:600;color:var(--gray-700);margin:14px 0 6px;}
+.slide p{font-size:.97em;line-height:1.75;color:var(--gray-700);margin-bottom:8px;}
+.slide ul,.slide ol{margin:6px 0 10px 26px;}.slide li{font-size:.95em;line-height:1.7;color:var(--gray-700);margin-bottom:5px;}
+.slide strong{color:var(--gray-900);}.slide table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.87em;}
+.slide th{background:var(--red);color:var(--white);padding:9px 13px;text-align:left;font-weight:600;}
+.slide td{padding:8px 13px;border-bottom:1px solid var(--gray-200);}.slide tr:nth-child(even) td{background:var(--gray-50);}
+.slide blockquote{border-left:4px solid var(--gold);background:var(--gray-50);padding:12px 18px;margin:12px 0;border-radius:0 6px 6px 0;font-style:italic;color:var(--gray-700);font-size:.93em;}
+.cols{display:flex;gap:28px;margin:10px 0;}.cols .col{flex:1;}
+.hl{background:var(--red-light);border:1px solid var(--red);padding:12px 18px;border-radius:8px;margin:10px 0;}
+.ex{background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:16px 20px;margin:8px 0;}.ex h3{color:#15803d;margin-top:0;font-size:1em;}
+.step{display:flex;align-items:flex-start;gap:14px;margin:7px 0;}.snum{background:var(--red);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82em;flex-shrink:0;margin-top:3px;}
+.nav{position:fixed;bottom:24px;right:36px;display:flex;gap:8px;z-index:999;}
+.nav button{background:var(--red);color:var(--white);border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1em;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.nav button:hover{background:var(--red-dark);}
+.counter{position:fixed;bottom:28px;left:36px;color:var(--gray-500);font-size:.8em;font-weight:500;z-index:999;}
+.progress{position:fixed;bottom:0;left:0;height:3px;background:var(--red);transition:width .3s;z-index:999;}
+</style>
+</head>
+<body><div id="deck">
+
+<div class="slide cover active">
+<h1>Data Science como<br>Vantagem Competitiva</h1>
+<p class="sub">Data Science e Big Data — MBA Mackenzie</p>
+<p class="sub">Universidade Presbiteriana Mackenzie</p>
+<div class="meta"><span>📅 Aula 2</span><span>⏱️ 4 horas</span><span>🎯 Estratégia</span></div>
+</div>
+
+<div class="slide">
+<span class="mk">MACKENZIE</span>
+<h2>🎯 Objetivos da Aula</h2>
+<ol>
+<li>Explicar o ciclo de vida de um projeto de Data Science do ponto de vista executivo</li>
+<li>Diferenciar os 4 tipos de análise e associar cada um a decisões de negócio</li>
+<li>Avaliar quando vale investir em análise preditiva vs. descritiva</li>
+<li>Estruturar o business case de uma iniciativa de dados</li>
+<li>Questionar resultados de modelos com as perguntas corretas</li>
+</ol>
+</div>
+
+<div class="slide section"><h2>Parte 1</h2><p>O Ciclo de Vida Analítico — visão executiva</p></div>
+
+<div class="slide">
+<span class="mk">MACKENZIE</span>
+<h2>🔄 Ciclo de Vida de um Projeto de Data Science</h2>
+<div class="step"><div class="snum">1</div><div><strong>Definição do Problema</strong> — "Qual pergunta de negócio queremos responder?"<br><span style="color:var(--gray-500);font-size:.88em;">Responsabilidade do negócio, não da equipe técnica. A etapa mais ignorada.</span></div></div>
+<div class="step"><div class="snum">2</div><div><strong>Coleta e Integração dos Dados</strong> — "Quais fontes temos? O que está faltando?"</div></div>
+<div class="step"><div class="snum">3</div><div><strong>Exploração e Qualidade</strong> — "Os dados são confiáveis? O que eles revelam?"<br><span style="color:var(--gray-500);font-size:.88em;">⚠️ Consome 60–80% do tempo real de qualquer projeto.</span></div></div>
+<div class="step"><div class="snum">4</div><div><strong>Modelagem e Análise</strong> — "Que padrões podemos extrair? Que previsões podemos fazer?"</div></div>
+<div class="step"><div class="snum">5</div><div><strong>Validação</strong> — "O modelo funciona fora dos dados de treinamento? Com que confiança?"</div></div>
+<div class="step"><div class="snum">6</div><div><strong>Comunicação e Ação</strong> — "Como transformar o insight em decisão e resultado?"</div></div>
+<div class="step"><div class="snum">7</div><div><strong>Monitoramento Contínuo</strong> — "O modelo continua preciso? O comportamento dos dados mudou?"</div></div>
+</div>
+
+<div class="slide">
+<span class="mk">MACKENZIE</span>
+<h2>⚠️ Onde Gestores Erram Mais</h2>
+<table>
+<tr><th>Erro</th><th>O que acontece</th><th>Como evitar</th></tr>
+<tr><td>Pular a etapa 1</td><td>Projeto tecnicamente correto, sem impacto no negócio</td><td>Exigir pergunta de negócio clara antes de qualquer aprovação de projeto</td></tr>
+<tr><td>Subestimar etapas 2 e 3</td><td>Cronograma explode; meses gastos limpando dados</td><td>Multiplicar por 3 qualquer estimativa de prazo de preparação</td></tr>
+<tr><td>Cobrar etapa 4 sem qualidade na 3</td><td>"Garbage in, garbage out" — modelo inútil ou enganoso</td><td>Não há atalho: dados ruins geram conclusões ruins</td></tr>
+<tr><td>Esquecer etapa 7</td><td>Modelo decai silenciosamente; decisões pioram sem ninguém perceber</td><td>Incluir monitoramento no escopo e orçamento desde o início</td></tr>
+</table>
+</div>
+
+<div class="slide section"><h2>Parte 2</h2><p>Os 4 Tipos de Análise — a Escada de Valor</p></div>
+
+<div class="slide">
+<span class="mk">MACKENZIE</span>
+<h2>📈 Os 4 Tipos de Análise</h2>
+<table>
+<tr><th>Nível</th><th>Tipo</th><th>Pergunta respondida</th><th>Complexidade</th><th>Valor gerado</th></tr>
+<tr><td>1</td><td><strong>Descritiva</strong></td><td>O que aconteceu?</td><td>Baixa</td><td>Entendimento do passado</td></tr>
+<tr><td>2</td><td><strong>Diagnóstica</strong></td><td>Por que aconteceu?</td><td>Média</td><td>Causa identificada</td></tr>
+<tr><td>3</td><td><strong>Preditiva</strong></td><td>O que vai acontecer?</td><td>Alta</td><td>Antecipação</td></tr>
+<tr><td>4</td><td><strong>Prescritiva</strong></td><td>O que devemos fazer?</td><td>Muito alta</td><td>Otimização de decisão</td></tr>
+</table>
+<div class="hl"><strong>Regra prática:</strong> A maioria das organizações brasileiras está entre os níveis 1 e 2. Chegar ao nível 2 já representa um salto enorme. O nível 4 exige que os três anteriores estejam consolidados.</div>
+</div>
+
+<div class="slide">
+<span class="mk">MACKENZIE</span>
+<h2>📈 Os 4 Tipos — Exemplos por Setor</h2>
+<table>
+<tr><th>Setor</th><th>Descritiva</th><th>Diagnóstica</th><th>Preditiva</th><th>Prescritiva</th></tr>
+<tr><td><strong>Saúde</strong></td><td>Perfil de sinistros por região</td><td>Por que o custo de internações subiu?</td><td>Risco de reinternação por paciente</td><td>Protocolo preventivo por perfil</td></tr>
+<tr><td><strong>Varejo</strong></td><td>Ticket médio por canal</td><td>Por que a conversão caiu no app?</td><td>Propensão de churn por cliente</td><td>Oferta individual no momento certo</td></tr>
+<tr><td><strong>Financeiro</strong></td><td>Volume de transações</td><td>Por que inadimplência aumentou?</td><td>Score de crédito</td><td>Limite ótimo por cliente</td></tr>
+<tr><td><strong>Logística</strong></td><td>Tempo médio de entrega</td><td>Por que essa rota tem mais atrasos?</td><td>Demanda por rota</td><td>Realocação de frota em tempo real</td></tr>
+</table>
+</div>
+
+<div class="slide section"><h2>Parte 3</h2><p>Business Case e as Perguntas Certas ao Modelo</p></div>
+
+<div class="slide">
+<span class="mk">MACKENZIE</span>
+<h2>📋 Estrutura de Business Case para Dados</h2>
+<table>
+<tr><th>Elemento</th><th>O que incluir</th></tr>
+<tr><td><strong>Problema de negócio</strong></td><td>Qual decisão específica será melhorada? (não "queremos ser data-driven")</td></tr>
+<tr><td><strong>Tipo de análise</strong></td><td>Descritiva / diagnóstica / preditiva / prescritiva?</td></tr>
+<tr><td><strong>Pergunta analítica</strong></td><td>Reformule o problema como pergunta mensurável</td></tr>
+<tr><td><strong>Dados disponíveis</strong></td><td>Quais fontes já existem?</td></tr>
+<tr><td><strong>Dados faltantes</strong></td><td>O que precisará ser coletado ou adquirido?</td></tr>
+<tr><td><strong>Métrica de sucesso</strong></td><td>Como saberemos que o projeto foi bem-sucedido?</td></tr>
+<tr><td><strong>Impacto estimado</strong></td><td>Redução de custo, aumento de receita ou melhoria de NPS?</td></tr>
+<tr><td><strong>Risco principal</strong></td><td>O que pode fazer o projeto falhar?</td></tr>
+</table>
+</div>
+
+<div class="slide">
+<span class="mk">MACKENZIE</span>
+<h2>🔍 6 Perguntas que Todo Gestor Deve Fazer ao Receber um Modelo</h2>
+<ol>
+<li><strong>"Qual pergunta exata você respondeu?"</strong> — Evita modelos tecnicamente corretos sem propósito de negócio</li>
+<li><strong>"Com que dados você treinou?"</strong> — Dados históricos refletem o passado; o futuro pode ter padrões diferentes</li>
+<li><strong>"Qual é a taxa de erro e o que acontece quando o modelo erra?"</strong> — Todo modelo erra; o custo do erro precisa ser explícito</li>
+<li><strong>"O modelo foi validado fora dos dados de treinamento?"</strong> — Teste essencial contra overfitting</li>
+<li><strong>"Há viés nos dados?"</strong> — Um modelo treinado só com clientes que chegaram à loja ignora os que não chegaram</li>
+<li><strong>"Com que frequência o modelo é reavaliado?"</strong> — Comportamentos mudam; modelos envelhecem silenciosamente</li>
+</ol>
+<div class="hl">Você não precisa entender o algoritmo. Precisa entender os pressupostos e as limitações.</div>
+</div>
+
+<div class="slide section"><h2>💬 Exercício Discursivo</h2><p>Caso real: Nubank e o Score de Crédito Próprio</p></div>
+
+<div class="slide">
+<span class="mk">MACKENZIE</span>
+<h2>🟣 Nubank — O Cliente que os Bancos Não Conseguiam Avaliar</h2>
+<p>Fundado em 2013, o Nubank não tinha acesso a histórico bancário dos seus clientes — seu público-alvo eram justamente os desbancarizados e os com score limitado.</p>
+<p><strong>A solução:</strong> modelos preditivos com fontes de dados não convencionais:</p>
+<ul>
+<li>Comportamento no app (frequência de uso, horários, consulta de saldo)</li>
+<li>Padrões de uso do cartão e categorias de gasto</li>
+<li>Dados de geolocalização anonimizados</li>
+<li>Estabilidade de endereço e comportamento em estabelecimentos fixos</li>
+</ul>
+<div class="hl"><strong>Resultado (2023):</strong> mais de 40% dos clientes de crédito do Nubank não teriam aprovação nos critérios convencionais dos bancos tradicionais — com taxa de inadimplência inferior à média do setor.</div>
+</div>
+
+<div class="slide">
+<span class="mk">MACKENZIE</span>
+<h2>💬 Exercício em Grupo — Questões</h2>
+<p><strong>Grupos de 4–5 pessoas · 70 minutos</strong></p>
+<div class="ex">
+<h3>Questão 1 — Tipo de análise (15 min)</h3>
+<p>O score de crédito pertence a qual nível da escada analítica? Que tipos de análise foram necessários antes de chegar lá?</p>
+</div>
+<div class="ex">
+<h3>Questão 2 — Ciclo de vida e riscos (25 min)</h3>
+<p>Reconstrua o ciclo de vida do projeto: pergunta de negócio original, fontes não convencionais usadas, métrica de sucesso de negócio (não técnica) e riscos de viés nos dados alternativos.</p>
+</div>
+<div class="ex">
+<h3>Questão 3 — Transferência para o seu setor (30 min)</h3>
+<p>Existe no setor do grupo algum "cliente invisível" — alguém que os sistemas atuais não conseguem avaliar bem — que representa uma oportunidade? Que dados alternativos poderiam ajudar? Que riscos éticos e de privacidade esse uso levanta?</p>
+</div>
+</div>
+
+<div class="slide">
+<span class="mk">MACKENZIE</span>
+<h2>📌 Síntese da Aula 2</h2>
+<div class="cols">
+<div class="col">
+<h3>Conceitos centrais</h3>
+<ul>
+<li>A pergunta de negócio vem primeiro — sempre</li>
+<li>60–80% do trabalho é coleta e limpeza, não modelagem</li>
+<li>Os 4 tipos de análise têm valores diferentes — comece onde você está</li>
+<li>Gestores não precisam entender algoritmos — precisam fazer as perguntas certas</li>
+</ul>
+</div>
+<div class="col">
+<h3>Leituras</h3>
+<ul>
+<li>Davenport (2014). <em>What do you really mean by Business Analytics?</em> — HBR</li>
+<li>O'Neil (2016). <em>Weapons of Math Destruction</em> — Cap. 1</li>
+</ul>
+<h3>Próxima aula</h3>
+<p>Arquiteturas de dados: do Data Warehouse ao Data Lake e Lakehouse.</p>
+</div>
+</div>
+</div>
+
+<div class="slide cover"><h1>Até a Aula 3! 🗄️</h1><p class="sub">Arquiteturas de Dados: do DW ao Data Lake</p></div>
+
+</div>
+<div class="nav"><button onclick="prev()">◀</button><button onclick="next()">▶</button></div>
+<div class="counter" id="counter"></div><div class="progress" id="progress"></div>
+<script>
+const slides=document.querySelectorAll('.slide');let cur=0;const total=slides.length;
+function show(n){slides[cur].classList.remove('active');cur=((n%total)+total)%total;slides[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('progress').style.width=((cur+1)/total*100)+'%';}
+function next(){show(cur+1);}function prev(){show(cur-1);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next();}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}if(e.key==='Home'){e.preventDefault();show(0);}if(e.key==='End'){e.preventDefault();show(total-1);}});
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;});document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?next():prev();}});show(0);
+</script></body></html>

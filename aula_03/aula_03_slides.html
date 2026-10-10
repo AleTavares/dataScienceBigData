@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 3 — Arquiteturas de Dados | Mackenzie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--red:#CC092F;--red-dark:#9E0724;--red-light:#F9E8EB;--gold:#C4A35A;--white:#FFFFFF;--gray-50:#FAFAFA;--gray-200:#E4E4E7;--gray-500:#71717A;--gray-700:#3F3F46;--gray-900:#18181B;}
+html,body{height:100%;overflow:hidden;font-family:"Inter",sans-serif;}body{background:var(--gray-900);}
+.slide{display:none;position:absolute;inset:0;width:100vw;height:100vh;padding:60px 80px;flex-direction:column;background:var(--white);color:var(--gray-900);overflow-y:auto;}
+.slide.active{display:flex;}.slide::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--red),var(--red-dark));}
+.slide .mk{position:absolute;top:18px;right:40px;font-size:.7em;font-weight:700;letter-spacing:2px;color:var(--red);}
+.slide.cover{background:linear-gradient(145deg,var(--red),var(--red-dark));color:var(--white);align-items:center;justify-content:center;text-align:center;padding:80px;}
+.slide.cover::before{display:none;}.slide.cover h1{font-size:2.8em;font-weight:800;line-height:1.2;margin-bottom:20px;}
+.slide.cover .sub{font-size:1.1em;font-weight:300;opacity:.9;margin-bottom:4px;}
+.slide.cover .meta{margin-top:28px;display:inline-flex;gap:16px;background:rgba(255,255,255,.15);padding:10px 24px;border-radius:24px;font-size:.9em;}
+.slide.section{background:var(--gray-900);color:var(--white);align-items:center;justify-content:center;text-align:center;}
+.slide.section::before{background:var(--gold);}.slide.section h2{font-size:2.3em;font-weight:700;margin-bottom:12px;}
+.slide.section p{font-size:1.05em;color:var(--gray-200);max-width:560px;}
+.slide h2{font-size:1.65em;font-weight:700;color:var(--red);margin-bottom:18px;}
+.slide h3{font-size:1.1em;font-weight:600;color:var(--gray-700);margin:14px 0 6px;}
+.slide p{font-size:.97em;line-height:1.75;color:var(--gray-700);margin-bottom:8px;}
+.slide ul,.slide ol{margin:6px 0 10px 26px;}.slide li{font-size:.95em;line-height:1.7;color:var(--gray-700);margin-bottom:5px;}
+.slide strong{color:var(--gray-900);}.slide table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.87em;}
+.slide th{background:var(--red);color:var(--white);padding:9px 13px;text-align:left;font-weight:600;}
+.slide td{padding:8px 13px;border-bottom:1px solid var(--gray-200);}.slide tr:nth-child(even) td{background:var(--gray-50);}
+.slide blockquote{border-left:4px solid var(--gold);background:var(--gray-50);padding:12px 18px;margin:12px 0;border-radius:0 6px 6px 0;font-style:italic;color:var(--gray-700);font-size:.93em;}
+.cols{display:flex;gap:28px;margin:10px 0;}.cols .col{flex:1;}
+.hl{background:var(--red-light);border:1px solid var(--red);padding:12px 18px;border-radius:8px;margin:10px 0;}
+.ex{background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:16px 20px;margin:8px 0;}.ex h3{color:#15803d;margin-top:0;font-size:1em;}
+.medallion{display:flex;gap:0;margin:14px 0;}
+.medallion .layer{flex:1;padding:14px;text-align:center;font-weight:700;font-size:.9em;}
+.medallion .bronze{background:#CD7F32;color:white;border-radius:8px 0 0 8px;}
+.medallion .silver{background:#A8A9AD;color:white;}
+.medallion .gold{background:var(--gold);color:white;border-radius:0 8px 8px 0;}
+.nav{position:fixed;bottom:24px;right:36px;display:flex;gap:8px;z-index:999;}
+.nav button{background:var(--red);color:var(--white);border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1em;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.nav button:hover{background:var(--red-dark);}
+.counter{position:fixed;bottom:28px;left:36px;color:var(--gray-500);font-size:.8em;font-weight:500;z-index:999;}
+.progress{position:fixed;bottom:0;left:0;height:3px;background:var(--red);transition:width .3s;z-index:999;}
+</style></head><body><div id="deck">
+
+<div class="slide cover active">
+<h1>Arquiteturas de Dados:<br>do DW ao Data Lake</h1>
+<p class="sub">Data Science e Big Data — MBA Mackenzie</p>
+<p class="sub">Universidade Presbiteriana Mackenzie</p>
+<div class="meta"><span>📅 Aula 3</span><span>⏱️ 4 horas</span><span>🏗️ Arquitetura</span></div>
+</div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🎯 Objetivos da Aula</h2><ol>
+<li>Descrever a evolução histórica das arquiteturas de armazenamento analítico</li>
+<li>Diferenciar Data Warehouse, Data Lake e Lakehouse com critérios objetivos</li>
+<li>Explicar a Arquitetura Medallion (Bronze → Silver → Gold)</li>
+<li>Avaliar qual arquitetura é adequada para cada contexto organizacional</li>
+<li>Identificar os 4 componentes de um ambiente de Big Data</li>
+</ol></div>
+
+<div class="slide section"><h2>Parte 1</h2><p>Evolução das Arquiteturas — 50 anos de aprendizado</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📅 Evolução: OLTP → DW → Data Lake → Lakehouse</h2>
+<table>
+<tr><th>Era</th><th>Período</th><th>Inovação</th><th>Limitação que levou ao próximo</th></tr>
+<tr><td><strong>OLTP</strong></td><td>1970–1990</td><td>Registrar operações com rapidez e consistência</td><td>Análise histórica trava o sistema operacional</td></tr>
+<tr><td><strong>Data Warehouse</strong></td><td>1990–2010</td><td>Ambiente analítico separado; esquema rígido e confiável</td><td>Não aceita dados não estruturados; custo alto; baixa flexibilidade</td></tr>
+<tr><td><strong>Data Lake</strong></td><td>2010–2020</td><td>Armazena tudo no formato original; schema-on-read; custo baixo</td><td>Sem governança vira Data Swamp — dado que ninguém confia</td></tr>
+<tr><td><strong>Lakehouse</strong></td><td>2020–presente</td><td>Flexibilidade do Data Lake + confiabilidade do DW em uma arquitetura</td><td>—</td></tr>
+</table></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📊 Comparativo: DW × Data Lake × Lakehouse</h2>
+<table>
+<tr><th>Característica</th><th>Data Warehouse</th><th>Data Lake</th><th>Lakehouse</th></tr>
+<tr><td>Tipos de dado</td><td>Só estruturado</td><td>Qualquer tipo</td><td>Qualquer tipo</td></tr>
+<tr><td>Esquema</td><td>Definido antes (write)</td><td>Definido ao ler (read)</td><td>Flexível com controle</td></tr>
+<tr><td>Qualidade</td><td>Alta (por construção)</td><td>Variável</td><td>Alta (por processo)</td></tr>
+<tr><td>Custo de armazenamento</td><td>Alto</td><td>Baixo</td><td>Baixo</td></tr>
+<tr><td>Flexibilidade analítica</td><td>Baixa</td><td>Alta</td><td>Alta</td></tr>
+<tr><td>Quando usar</td><td>BI fixo, relatórios padronizados</td><td>Exploração, ML, dados brutos</td><td>Ambos os cenários</td></tr>
+</table>
+<div class="hl">O Data Lake sem governança é o principal culpado pelos projetos de dados que custam milhões e não entregam valor.</div>
+</div>
+
+<div class="slide section"><h2>Parte 2</h2><p>Arquitetura Medallion — Bronze, Silver e Gold</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🏅 Arquitetura Medallion</h2>
+<p>Os dados entram brutos e são refinados em camadas progressivas até estarem prontos para consumo analítico:</p>
+<div class="medallion">
+<div class="layer bronze">🪨 BRONZE<br><small style="font-weight:400;">Dados brutos<br>Imutável<br>Como chegaram da fonte</small></div>
+<div class="layer silver">⚙️ SILVER<br><small style="font-weight:400;">Dados limpos<br>Validados<br>Sem duplicatas</small></div>
+<div class="layer gold">💎 GOLD<br><small style="font-weight:400;">KPIs prontos<br>Dashboards<br>Modelos</small></div>
+</div>
+<table>
+<tr><th>Camada</th><th>O que contém</th><th>Quem acessa</th><th>Analogia</th></tr>
+<tr><td><strong>Bronze</strong></td><td>Dado original, imutável, sem transformação</td><td>Engenheiros de dados</td><td>Minério bruto</td></tr>
+<tr><td><strong>Silver</strong></td><td>Limpo, validado, padronizado, sem duplicatas</td><td>Analistas, cientistas</td><td>Metal refinado</td></tr>
+<tr><td><strong>Gold</strong></td><td>KPIs, agregações, modelos prontos para uso</td><td>Gestores, BI, relatórios executivos</td><td>Joia lapidada</td></tr>
+</table></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🏅 Por que a Medallion Importa para o Negócio</h2>
+<div class="cols">
+<div class="col">
+<h3>Rastreabilidade</h3>
+<p>Sempre é possível voltar ao dado Bronze original para investigar inconsistências em um relatório — sem dependência de memória humana ou planilhas intermediárias.</p>
+<h3>Confiança progressiva</h3>
+<p>O CEO consome Gold (máxima confiança). O engenheiro acessa Bronze para investigação. Cada perfil recebe o dado no nível certo de refinamento.</p>
+</div>
+<div class="col">
+<h3>Separação de responsabilidades</h3>
+<p>Times diferentes cuidam de cada camada, com critérios de qualidade específicos para cada uma.</p>
+<h3>Auditoria e compliance</h3>
+<p>Em caso de questionamento regulatório ou erro em relatório executivo, é possível rastrear o caminho exato de qualquer número até a fonte original.</p>
+</div>
+</div></div>
+
+<div class="slide section"><h2>Parte 3</h2><p>Os 4 Componentes de um Ambiente de Big Data</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>⚙️ Os 4 Componentes</h2>
+<table>
+<tr><th>#</th><th>Componente</th><th>Função</th><th>Pergunta de negócio que dirige as decisões</th></tr>
+<tr><td>1</td><td><strong>Ingestão</strong></td><td>Capturar dados de todas as fontes</td><td>Com que frequência? Tempo real ou batch? Quais fontes priorizar?</td></tr>
+<tr><td>2</td><td><strong>Armazenamento</strong></td><td>Guardar com custo eficiente e escalável</td><td>Por quanto tempo? Quem pode acessar? Qual nível de redundância?</td></tr>
+<tr><td>3</td><td><strong>Processamento</strong></td><td>Transformar, agregar e enriquecer</td><td>Com que latência os dados precisam estar disponíveis?</td></tr>
+<tr><td>4</td><td><strong>Consumo</strong></td><td>Entregar para usuários e sistemas</td><td>Quem precisa de quê, em qual formato e com qual detalhe?</td></tr>
+</table>
+<div class="hl">As decisões técnicas sobre cada componente devem ser dirigidas por perguntas de negócio — não pela tecnologia disponível ou pela preferência da equipe de TI.</div></div>
+
+<div class="slide section"><h2>💬 Exercício Discursivo</h2><p>Caso real: Arquitetura de dados do Mercado Livre</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🛒 Mercado Livre — Dois Regimes Simultâneos</h2>
+<p>Maior plataforma de e-commerce e pagamentos da América Latina. <strong>+100 milhões de usuários</strong>, 18 países, ~1 milhão de transações/hora em pico.</p>
+<div class="cols">
+<div class="col">
+<h3>Regime transacional (OLTP)</h3>
+<ul>
+<li>Processar pagamentos via Mercado Pago</li>
+<li>Comunicar vendedores sobre novos pedidos</li>
+<li>Acionar a logística</li>
+<li>Atualizar estoque em segundos</li>
+</ul>
+</div>
+<div class="col">
+<h3>Regime analítico (OLAP)</h3>
+<ul>
+<li>Recomendações personalizadas por usuário</li>
+<li>Score de risco de fraude por transação</li>
+<li>Precificação dinâmica por oferta e demanda</li>
+<li>Relatórios financeiros para reguladores em 18 países</li>
+</ul>
+</div>
+</div>
+<p>A equipe de dados do Mercado Livre publica regularmente sobre a evolução de sua arquitetura — de bancos relacionais isolados para um Data Lakehouse unificado.</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>💬 Exercício em Grupo — Questões</h2>
+<p><strong>Grupos de 4–5 pessoas · 70 minutos</strong></p>
+<div class="ex">
+<h3>Questão 1 — OLTP vs. OLAP (15 min)</h3>
+<p>Identifique quais operações pertencem ao ambiente transacional e quais ao analítico. O que aconteceria se o Mercado Livre tentasse usar apenas um tipo de ambiente?</p>
+</div>
+<div class="ex">
+<h3>Questão 2 — Medallion na prática (25 min)</h3>
+<p>Proponha como a Arquitetura Medallion seria aplicada ao Mercado Livre: que dados entram em cada camada, que transformações ocorrem entre elas e quem (qual perfil) consome cada uma?</p>
+</div>
+<div class="ex">
+<h3>Questão 3 — Transferência para o seu setor (30 min)</h3>
+<p>Uma organização do setor do grupo usa DW, Data Lake, ou está em nível anterior? Qual seria o primeiro caso de uso que justificaria migrar para arquitetura mais moderna? Quais fontes alimentariam o Bronze e o que estaria no Gold?</p>
+</div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📌 Síntese da Aula 3</h2>
+<div class="cols">
+<div class="col">
+<h3>Conceitos centrais</h3>
+<ul>
+<li>DW = relatórios fixos; Data Lake = flexibilidade; Lakehouse = ambos</li>
+<li>Sem governança, Data Lake vira Data Swamp</li>
+<li>Medallion: Bronze (bruto) → Silver (limpo) → Gold (negócio)</li>
+<li>Os 4 componentes (ingestão, armazenamento, processamento, consumo) devem seguir perguntas de negócio</li>
+</ul>
+</div>
+<div class="col">
+<h3>Leituras</h3>
+<ul><li>Kimball & Ross. <em>The Data Warehouse Toolkit</em> — Cap. 1</li>
+<li>Databricks. <em>What is a Data Lakehouse?</em></li></ul>
+<h3>Próxima aula</h3><p>Construindo um Data Lake: framework de priorização de fontes, governança mínima e business case.</p>
+</div></div></div>
+
+<div class="slide cover"><h1>Até a Aula 4! 🔧</h1><p class="sub">Construindo um Data Lake: Estratégia e Decisões</p></div>
+
+</div>
+<div class="nav"><button onclick="prev()">◀</button><button onclick="next()">▶</button></div>
+<div class="counter" id="counter"></div><div class="progress" id="progress"></div>
+<script>
+const slides=document.querySelectorAll(".slide");let cur=0;const total=slides.length;
+function show(n){slides[cur].classList.remove("active");cur=((n%total)+total)%total;slides[cur].classList.add("active");document.getElementById("counter").textContent=(cur+1)+" / "+total;document.getElementById("progress").style.width=((cur+1)/total*100)+"%";}
+function next(){show(cur+1);}function prev(){show(cur-1);}
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"||e.key===" "||e.key==="PageDown"){e.preventDefault();next();}if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();prev();}if(e.key==="Home"){e.preventDefault();show(0);}if(e.key==="End"){e.preventDefault();show(total-1);}});
+let tx=0;document.addEventListener("touchstart",e=>{tx=e.touches[0].clientX;});document.addEventListener("touchend",e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?next():prev();}});show(0);
+</script></body></html>

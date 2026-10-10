@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aula 4 — Construindo um Data Lake | Mackenzie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>*{margin:0;padding:0;box-sizing:border-box;}:root{--red:#CC092F;--red-dark:#9E0724;--red-light:#F9E8EB;--gold:#C4A35A;--white:#FFFFFF;--gray-50:#FAFAFA;--gray-200:#E4E4E7;--gray-500:#71717A;--gray-700:#3F3F46;--gray-900:#18181B;}
+html,body{height:100%;overflow:hidden;font-family:"Inter",sans-serif;}body{background:var(--gray-900);}
+.slide{display:none;position:absolute;inset:0;width:100vw;height:100vh;padding:60px 80px;flex-direction:column;background:var(--white);color:var(--gray-900);overflow-y:auto;}
+.slide.active{display:flex;}.slide::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--red),var(--red-dark));}
+.slide .mk{position:absolute;top:18px;right:40px;font-size:.7em;font-weight:700;letter-spacing:2px;color:var(--red);}
+.slide.cover{background:linear-gradient(145deg,var(--red),var(--red-dark));color:var(--white);align-items:center;justify-content:center;text-align:center;padding:80px;}.slide.cover::before{display:none;}
+.slide.cover h1{font-size:2.8em;font-weight:800;line-height:1.2;margin-bottom:20px;}.slide.cover .sub{font-size:1.1em;font-weight:300;opacity:.9;margin-bottom:4px;}
+.slide.cover .meta{margin-top:28px;display:inline-flex;gap:16px;background:rgba(255,255,255,.15);padding:10px 24px;border-radius:24px;font-size:.9em;}
+.slide.section{background:var(--gray-900);color:var(--white);align-items:center;justify-content:center;text-align:center;}.slide.section::before{background:var(--gold);}
+.slide.section h2{font-size:2.3em;font-weight:700;margin-bottom:12px;}.slide.section p{font-size:1.05em;color:var(--gray-200);max-width:560px;}
+.slide h2{font-size:1.65em;font-weight:700;color:var(--red);margin-bottom:18px;}.slide h3{font-size:1.1em;font-weight:600;color:var(--gray-700);margin:14px 0 6px;}
+.slide p{font-size:.97em;line-height:1.75;color:var(--gray-700);margin-bottom:8px;}.slide ul,.slide ol{margin:6px 0 10px 26px;}
+.slide li{font-size:.95em;line-height:1.7;color:var(--gray-700);margin-bottom:5px;}.slide strong{color:var(--gray-900);}
+.slide table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.87em;}.slide th{background:var(--red);color:var(--white);padding:9px 13px;text-align:left;font-weight:600;}
+.slide td{padding:8px 13px;border-bottom:1px solid var(--gray-200);}.slide tr:nth-child(even) td{background:var(--gray-50);}
+.slide blockquote{border-left:4px solid var(--gold);background:var(--gray-50);padding:12px 18px;margin:12px 0;border-radius:0 6px 6px 0;font-style:italic;color:var(--gray-700);font-size:.93em;}
+.cols{display:flex;gap:28px;margin:10px 0;}.cols .col{flex:1;}
+.hl{background:var(--red-light);border:1px solid var(--red);padding:12px 18px;border-radius:8px;margin:10px 0;}
+.ex{background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:16px 20px;margin:8px 0;}.ex h3{color:#15803d;margin-top:0;font-size:1em;}
+.matrix{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+.quad{border-radius:8px;padding:14px;}.quad.qg{background:#f0fdf4;border:2px solid #16a34a;}.quad.qy{background:#fefce8;border:2px solid #ca8a04;}
+.quad.qr{background:var(--red-light);border:2px solid var(--red);}.quad.qgr{background:var(--gray-50);border:2px solid var(--gray-500);}
+.quad h3{font-size:.95em;margin-top:0;}
+.nav{position:fixed;bottom:24px;right:36px;display:flex;gap:8px;z-index:999;}
+.nav button{background:var(--red);color:var(--white);border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1em;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.nav button:hover{background:var(--red-dark);}
+.counter{position:fixed;bottom:28px;left:36px;color:var(--gray-500);font-size:.8em;font-weight:500;z-index:999;}
+.progress{position:fixed;bottom:0;left:0;height:3px;background:var(--red);transition:width .3s;z-index:999;}</style></head>
+<body><div id="deck">
+
+<div class="slide cover active">
+<h1>Construindo um Data Lake:<br>Estratégia e Decisões</h1>
+<p class="sub">Data Science e Big Data — MBA Mackenzie</p>
+<p class="sub">Universidade Presbiteriana Mackenzie</p>
+<div class="meta"><span>📅 Aula 4</span><span>⏱️ 4 horas</span><span>🎯 Estratégia</span></div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🎯 Objetivos da Aula</h2><ol>
+<li>Aplicar um framework para priorizar fontes de dados em um projeto de Data Lake</li>
+<li>Avaliar o trade-off entre valor de negócio e complexidade técnica</li>
+<li>Identificar os elementos de governança mínima para o Dia 1</li>
+<li>Antecipar os principais riscos de implantação e como mitigá-los</li>
+<li>Construir um business case simplificado para uma iniciativa de dados</li>
+</ol></div>
+
+<div class="slide section"><h2>Parte 1</h2><p>Framework de Priorização de Fontes de Dados</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📊 Matriz Valor × Complexidade</h2>
+<p>Para cada fonte candidata, avalie dois eixos: <strong>Valor de negócio</strong> e <strong>Complexidade de integração</strong>.</p>
+<div class="matrix">
+<div class="quad qg"><h3>✅ QUICK WINS</h3><p><strong>Alto valor + Baixa complexidade</strong><br>Comece aqui — entregue resultado em 90 dias e prove o conceito para o board.</p></div>
+<div class="quad qy"><h3>🔭 ESTRATÉGICOS</h3><p><strong>Alto valor + Alta complexidade</strong><br>Planeje com cuidado; projeto formal com cronograma realista.</p></div>
+<div class="quad qgr"><h3>⏸️ BAIXA PRIORIDADE</h3><p><strong>Baixo valor + Baixa complexidade</strong><br>Desconsidere por ora; esforço pequeno, retorno pequeno.</p></div>
+<div class="quad qr"><h3>🚫 EVITAR AGORA</h3><p><strong>Baixo valor + Alta complexidade</strong><br>Muito esforço, pouco retorno; risco de desviar o foco do que importa.</p></div>
+</div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🗂️ Tipologia de Fontes de Dados</h2>
+<table>
+<tr><th>Tipo</th><th>Exemplos</th><th>Complexidade típica</th></tr>
+<tr><td><strong>Internas estruturadas</strong></td><td>ERP, CRM, sistemas transacionais</td><td>Média</td></tr>
+<tr><td><strong>Internas semi-estruturadas</strong></td><td>Logs de sistema, formulários web, e-mails</td><td>Alta</td></tr>
+<tr><td><strong>Internas não estruturadas</strong></td><td>Documentos, PDFs, imagens, áudios</td><td>Muito alta</td></tr>
+<tr><td><strong>Externas públicas</strong></td><td>IBGE, Banco Central, órgãos reguladores</td><td>Baixa</td></tr>
+<tr><td><strong>Externas comerciais</strong></td><td>Enriquecimento cadastral, dados de mercado</td><td>Média</td></tr>
+<tr><td><strong>Streaming / IoT</strong></td><td>Sensores, wearables, clickstream</td><td>Alta</td></tr>
+</table></div>
+
+<div class="slide section"><h2>Parte 2</h2><p>Governança Mínima — o que definir antes do primeiro byte</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🛡️ Os 4 Elementos Inegociáveis do Dia 1</h2>
+<div class="cols">
+<div class="col">
+<h3>1. Data Owner</h3>
+<p>Para cada fonte, defina quem é responsável pela precisão, atualização e autorização de acesso. <strong>Sem dono, o dado não tem responsável quando algo dá errado.</strong></p>
+<h3>2. Classificação de sensibilidade</h3>
+<table>
+<tr><th>Nível</th><th>Controle</th></tr>
+<tr><td>Público</td><td>Sem restrição</td></tr>
+<tr><td>Interno</td><td>Colaboradores autenticados</td></tr>
+<tr><td>Confidencial</td><td>Need-to-know</td></tr>
+<tr><td>Sensível/LGPD</td><td>Controles especiais</td></tr>
+</table>
+</div>
+<div class="col">
+<h3>3. SLA de qualidade mínimo</h3>
+<ul><li>Frequência de atualização esperada</li>
+<li>Completude mínima aceitável por campo crítico</li>
+<li>O que acontece quando o dado não chega no prazo</li></ul>
+<h3>4. Catálogo de dados inicial</h3>
+<p>Para cada fonte ingerida, documente: nome, descrição, fonte, Data Owner, frequência, sensibilidade e dicionário de variáveis principais.</p>
+</div>
+</div></div>
+
+<div class="slide section"><h2>Parte 3</h2><p>Riscos e Business Case</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>⚠️ Riscos que Mais Matam Projetos de Data Lake</h2>
+<table>
+<tr><th>Risco</th><th>Probabilidade</th><th>Como mitigar</th></tr>
+<tr><td>Data Swamp (dado sem dono)</td><td>Alta</td><td>Governança mínima antes de ingerir qualquer fonte</td></tr>
+<tr><td>Escopo infinito</td><td>Alta</td><td>MVP: 3–5 fontes, entrega em 90 dias</td></tr>
+<tr><td>Falta de casos de uso definidos</td><td>Alta</td><td>Definir 2–3 perguntas de negócio antes de construir infraestrutura</td></tr>
+<tr><td>Resistência dos sistemas legados</td><td>Média</td><td>Envolver donos dos sistemas desde o início</td></tr>
+<tr><td>Violação de LGPD</td><td>Média</td><td>Classificação de sensibilidade obrigatória antes do primeiro acesso</td></tr>
+<tr><td>Custo fora de controle</td><td>Média</td><td>Monitorar custo de armazenamento desde a implantação</td></tr>
+</table></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📋 Estrutura de Business Case para Data Lake</h2>
+<table>
+<tr><th>Elemento</th><th>O que incluir</th></tr>
+<tr><td><strong>Problema atual</strong></td><td>Qual decisão está sendo tomada com dados ruins ou atrasados?</td></tr>
+<tr><td><strong>Top 3 fontes (MVP)</strong></td><td>Priorização pela matriz Valor × Complexidade</td></tr>
+<tr><td><strong>Caso de uso principal</strong></td><td>Qual análise será possível nos primeiros 90 dias?</td></tr>
+<tr><td><strong>Benefício quantificável</strong></td><td>Redução de custo, aumento de receita ou melhoria de NPS</td></tr>
+<tr><td><strong>Investimento estimado</strong></td><td>Pessoas + tecnologia + tempo (ordem de magnitude)</td></tr>
+<tr><td><strong>ROI esperado</strong></td><td>Benefício / Investimento em 12 meses</td></tr>
+<tr><td><strong>Risco principal</strong></td><td>Maior ameaça ao projeto e plano de mitigação</td></tr>
+</table></div>
+
+<div class="slide section"><h2>💬 Exercício Discursivo</h2><p>Caso real: A estratégia de dados da Ambev</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🍺 Ambev — Dados em uma Cadeia de Alta Complexidade</h2>
+<p>A Ambev iniciou sua transformação data-driven em larga escala por volta de 2017–2018. O desafio: conectar dados de <strong>30 fábricas</strong>, <strong>100+ centros de distribuição</strong> e <strong>1 milhão de pontos de venda</strong>.</p>
+<p><strong>Fontes de dados disponíveis:</strong></p>
+<ul>
+<li>Sistemas de ponto de venda (POS) de parceiros</li>
+<li>Dados de campo dos representantes (via app)</li>
+<li>Dados de produção das fábricas</li>
+<li>Dados climáticos (temperatura afeta consumo de cerveja)</li>
+<li>Dados de redes sociais e sentimento de marca</li>
+<li>IoT de geladeiras conectadas em pontos de venda</li>
+</ul>
+<div class="hl"><strong>Resultados:</strong> redução de 15% no nível de estoque dos distribuidores sem aumento de rupturas; personalização da oferta por canal e perfil de ponto de venda.</div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>💬 Exercício em Grupo — Questões</h2>
+<p><strong>Grupos de 4–5 pessoas · 70 minutos</strong></p>
+<div class="ex">
+<h3>Questão 1 — Priorização de fontes (20 min)</h3>
+<p>Classifique cada uma das 6 fontes da Ambev na matriz Valor × Complexidade. Quais 3 fontes compõem o MVP? Justifique usando os critérios do framework.</p></div>
+<div class="ex">
+<h3>Questão 2 — Governança e riscos (25 min)</h3>
+<p>Para as 3 fontes escolhidas: quem seria o Data Owner? Qual o nível de sensibilidade (LGPD)? Quais são os 2 maiores riscos do projeto e como mitigá-los?</p></div>
+<div class="ex">
+<h3>Questão 3 — Business case para o seu setor (25 min)</h3>
+<p>Construa um business case simplificado para uma iniciativa de Data Lake em uma organização do setor do grupo: problema atual, top 3 fontes, caso de uso nos primeiros 90 dias e benefício quantificável esperado.</p></div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📌 Síntese da Aula 4</h2>
+<div class="cols"><div class="col">
+<h3>Conceitos centrais</h3><ul>
+<li>Priorize Quick Wins (alto valor, baixa complexidade) no MVP</li>
+<li>Governança mínima: Data Owner + sensibilidade + SLA + catálogo — antes de qualquer byte</li>
+<li>MVP = 3–5 fontes, resultado visível em 90 dias</li>
+<li>Business case deve mostrar impacto de negócio, não apenas capacidade técnica</li>
+</ul></div>
+<div class="col">
+<h3>Leituras</h3><ul><li>McKinsey. <em>Designing data governance that delivers value</em></li>
+<li>HBR Analytic Services. <em>The New Decision Makers</em> (2020)</li></ul>
+<h3>Próxima aula</h3><p>Qualidade e Confiabilidade dos Dados: as 6 dimensões, custo da má qualidade e o processo contínuo de Data Quality.</p>
+</div></div></div>
+
+<div class="slide cover"><h1>Até a Aula 5! 🔍</h1><p class="sub">Qualidade e Confiabilidade dos Dados</p></div>
+
+</div>
+<div class="nav"><button onclick="prev()">◀</button><button onclick="next()">▶</button></div>
+<div class="counter" id="counter"></div><div class="progress" id="progress"></div>
+<script>
+const slides=document.querySelectorAll(".slide");let cur=0;const total=slides.length;
+function show(n){slides[cur].classList.remove("active");cur=((n%total)+total)%total;slides[cur].classList.add("active");document.getElementById("counter").textContent=(cur+1)+" / "+total;document.getElementById("progress").style.width=((cur+1)/total*100)+"%";}
+function next(){show(cur+1);}function prev(){show(cur-1);}
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"||e.key===" "||e.key==="PageDown"){e.preventDefault();next();}if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();prev();}if(e.key==="Home"){e.preventDefault();show(0);}if(e.key==="End"){e.preventDefault();show(total-1);}});
+let tx=0;document.addEventListener("touchstart",e=>{tx=e.touches[0].clientX;});document.addEventListener("touchend",e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?next():prev();}});show(0);
+</script></body></html>

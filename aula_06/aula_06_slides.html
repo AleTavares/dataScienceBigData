@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aula 6 — Governança, Privacidade e LGPD | Mackenzie</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>*{margin:0;padding:0;box-sizing:border-box;}:root{--red:#CC092F;--red-dark:#9E0724;--red-light:#F9E8EB;--gold:#C4A35A;--white:#FFFFFF;--gray-50:#FAFAFA;--gray-200:#E4E4E7;--gray-500:#71717A;--gray-700:#3F3F46;--gray-900:#18181B;}
+html,body{height:100%;overflow:hidden;font-family:"Inter",sans-serif;}body{background:var(--gray-900);}
+.slide{display:none;position:absolute;inset:0;width:100vw;height:100vh;padding:60px 80px;flex-direction:column;background:var(--white);color:var(--gray-900);overflow-y:auto;}
+.slide.active{display:flex;}.slide::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--red),var(--red-dark));}
+.slide .mk{position:absolute;top:18px;right:40px;font-size:.7em;font-weight:700;letter-spacing:2px;color:var(--red);}
+.slide.cover{background:linear-gradient(145deg,var(--red),var(--red-dark));color:var(--white);align-items:center;justify-content:center;text-align:center;padding:80px;}.slide.cover::before{display:none;}
+.slide.cover h1{font-size:2.8em;font-weight:800;line-height:1.2;margin-bottom:20px;}.slide.cover .sub{font-size:1.1em;font-weight:300;opacity:.9;margin-bottom:4px;}
+.slide.cover .meta{margin-top:28px;display:inline-flex;gap:16px;background:rgba(255,255,255,.15);padding:10px 24px;border-radius:24px;font-size:.9em;}
+.slide.section{background:var(--gray-900);color:var(--white);align-items:center;justify-content:center;text-align:center;}.slide.section::before{background:var(--gold);}
+.slide.section h2{font-size:2.3em;font-weight:700;margin-bottom:12px;}.slide.section p{font-size:1.05em;color:var(--gray-200);max-width:560px;}
+.slide h2{font-size:1.65em;font-weight:700;color:var(--red);margin-bottom:18px;}.slide h3{font-size:1.1em;font-weight:600;color:var(--gray-700);margin:14px 0 6px;}
+.slide p{font-size:.97em;line-height:1.75;color:var(--gray-700);margin-bottom:8px;}.slide ul,.slide ol{margin:6px 0 10px 26px;}
+.slide li{font-size:.95em;line-height:1.7;color:var(--gray-700);margin-bottom:5px;}.slide strong{color:var(--gray-900);}
+.slide table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.87em;}.slide th{background:var(--red);color:var(--white);padding:9px 13px;text-align:left;font-weight:600;}
+.slide td{padding:8px 13px;border-bottom:1px solid var(--gray-200);}.slide tr:nth-child(even) td{background:var(--gray-50);}
+.slide blockquote{border-left:4px solid var(--gold);background:var(--gray-50);padding:12px 18px;margin:12px 0;border-radius:0 6px 6px 0;font-style:italic;color:var(--gray-700);font-size:.93em;}
+.cols{display:flex;gap:28px;margin:10px 0;}.cols .col{flex:1;}
+.hl{background:var(--red-light);border:1px solid var(--red);padding:12px 18px;border-radius:8px;margin:10px 0;}
+.ex{background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:16px 20px;margin:8px 0;}.ex h3{color:#15803d;margin-top:0;font-size:1em;}
+.role{border-left:4px solid var(--red);background:var(--gray-50);padding:10px 14px;margin:7px 0;border-radius:0 6px 6px 0;}
+.role .t{font-weight:700;color:var(--red);font-size:.92em;}
+.nav{position:fixed;bottom:24px;right:36px;display:flex;gap:8px;z-index:999;}
+.nav button{background:var(--red);color:var(--white);border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1em;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.nav button:hover{background:var(--red-dark);}
+.counter{position:fixed;bottom:28px;left:36px;color:var(--gray-500);font-size:.8em;font-weight:500;z-index:999;}
+.progress{position:fixed;bottom:0;left:0;height:3px;background:var(--red);transition:width .3s;z-index:999;}</style></head>
+<body><div id="deck">
+
+<div class="slide cover active">
+<h1>Governança, Privacidade<br>e LGPD</h1>
+<p class="sub">Data Science e Big Data — MBA Mackenzie</p>
+<p class="sub">Universidade Presbiteriana Mackenzie</p>
+<div class="meta"><span>📅 Aula 6</span><span>⏱️ 4 horas</span><span>🔐 Governança</span></div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🎯 Objetivos da Aula</h2><ol>
+<li>Definir Governança de Dados e diferenciá-la de gestão de TI</li>
+<li>Identificar e aplicar os papéis centrais em um modelo de governança</li>
+<li>Compreender os impactos práticos da LGPD em operações de dados</li>
+<li>Classificar dados pessoais e sensíveis e selecionar a base legal adequada</li>
+<li>Explicar o Data Mesh como modelo de governança distribuída</li>
+</ol></div>
+
+<div class="slide section"><h2>Parte 1</h2><p>Governança de Dados — conceito e papéis</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🏛️ O que É (e o que Não É) Governança</h2>
+<div class="cols">
+<div class="col">
+<h3>Governança NÃO é:</h3>
+<ul><li>Apenas segurança de TI (firewall, criptografia)</li>
+<li>Apenas qualidade de dados</li>
+<li>Apenas compliance regulatório</li>
+<li>Responsabilidade exclusiva da TI</li></ul>
+</div>
+<div class="col">
+<h3>Governança É:</h3>
+<ul><li>Conjunto de políticas, processos, papéis e responsabilidades</li>
+<li>Quem decide o que os dados <em>significam</em></li>
+<li>Quem autoriza o acesso a quais dados</li>
+<li>Quem é responsável quando um dado está errado</li>
+<li>Quais dados podem ser cruzados e sob quais condições</li></ul>
+</div>
+</div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>👥 Papéis de Governança</h2>
+<div class="role"><div class="t">Chief Data Officer (CDO)</div>Estratégia de dados, ROI, cultura data-driven. Representa os dados no C-Suite.</div>
+<div class="role"><div class="t">Data Owner (Diretor de área)</div>Responsável pelo dado do seu domínio: define regras, autoriza acessos, aprova qualidade.</div>
+<div class="role"><div class="t">Data Steward (Analista sênior)</div>Cuida do dado no dia a dia: cataloga, documenta, monitora qualidade.</div>
+<div class="role"><div class="t">Data Custodian (TI / Engenharia)</div>Armazena e implementa controles definidos pelo negócio. Executa, não decide.</div>
+<div class="role"><div class="t">DPO — Data Protection Officer</div>Garante conformidade com LGPD. Ponto de contato com a ANPD. Obrigatório por lei.</div>
+<div class="hl"><strong>Regra fundamental:</strong> O Data Owner decide. O Data Custodian implementa. O DPO garante a legalidade.</div></div>
+
+<div class="slide section"><h2>Parte 2</h2><p>LGPD — o que todo gestor de dados precisa saber</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🔒 Tipos de Dados Pessoais e Bases Legais</h2>
+<table>
+<tr><th>Tipo</th><th>Definição</th><th>Exemplos</th></tr>
+<tr><td><strong>Dado pessoal</strong></td><td>Identifica ou pode identificar uma pessoa natural</td><td>Nome, CPF, e-mail, endereço, IP</td></tr>
+<tr><td><strong>Dado sensível</strong></td><td>Pode gerar discriminação ou é de natureza íntima</td><td>Saúde, genética, biometria, religião, orientação sexual, raça</td></tr>
+<tr><td><strong>Dado anonimizado</strong></td><td>Não permite identificação nem com esforço razoável</td><td>Estatísticas sem identificador individual</td></tr>
+</table>
+<table>
+<tr><th>Base legal</th><th>Quando usar</th><th>Exemplo</th></tr>
+<tr><td><strong>Consentimento</strong></td><td>Usuário autorizou expressamente</td><td>Marketing por e-mail opt-in</td></tr>
+<tr><td><strong>Contrato</strong></td><td>Necessário para executar o contrato</td><td>Dados de entrega em compra online</td></tr>
+<tr><td><strong>Obrigação legal</strong></td><td>A lei exige</td><td>Nota fiscal, eSocial, dados à Receita</td></tr>
+<tr><td><strong>Interesse legítimo</strong></td><td>Interesse razoável sem prejudicar o titular</td><td>Prevenção a fraudes</td></tr>
+<tr><td><strong>Tutela da saúde</strong></td><td>Proteção da vida por profissional de saúde</td><td>Histórico clínico para tratamento</td></tr>
+</table></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📋 7 Obrigações Práticas da LGPD</h2>
+<ol>
+<li><strong>Mapeamento:</strong> saber quais dados pessoais você trata, onde estão e por quê</li>
+<li><strong>Minimização:</strong> coletar apenas o necessário para a finalidade declarada</li>
+<li><strong>Finalidade:</strong> usar os dados só para o propósito informado ao titular</li>
+<li><strong>Segurança:</strong> medidas técnicas e organizacionais para proteger os dados</li>
+<li><strong>Transparência:</strong> informar os titulares sobre como seus dados são tratados</li>
+<li><strong>Direitos do titular:</strong> responder solicitações de acesso, correção e exclusão em até 15 dias</li>
+<li><strong>Incidentes:</strong> notificar ANPD e titulares em caso de vazamento</li>
+</ol>
+<div class="hl"><strong>Penalidade:</strong> até 2% do faturamento do grupo econômico no Brasil no último exercício, limitado a R$ 50 milhões por infração.</div></div>
+
+<div class="slide section"><h2>Parte 3</h2><p>Data Mesh — governança distribuída para organizações que escalam</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🕸️ Data Mesh — Princípios</h2>
+<p>Quando a empresa cresce, a governança centralizada vira gargalo. <strong>Data Mesh</strong> trata domínios de negócio como responsáveis pelos seus próprios dados.</p>
+<table>
+<tr><th>Princípio</th><th>O que significa</th></tr>
+<tr><td><strong>Domínios como donos</strong></td><td>Cada área é responsável pelos dados que gera e disponibiliza</td></tr>
+<tr><td><strong>Dados como produto</strong></td><td>Cada domínio trata seu dado como produto com SLA, documentação e suporte</td></tr>
+<tr><td><strong>Infraestrutura como plataforma</strong></td><td>TI central fornece ferramentas; os domínios decidem como usá-las</td></tr>
+<tr><td><strong>Governança federada</strong></td><td>Padrões centrais (LGPD, qualidade mínima); execução descentralizada</td></tr>
+</table>
+<div class="hl"><strong>Quando considerar:</strong> empresa grande, time central de dados virou gargalo, áreas querem autonomia analítica com qualidade garantida.</div></div>
+
+<div class="slide section"><h2>💬 Exercício Discursivo</h2><p>Caso real: Processo administrativo da ANPD contra a Claro Brasil (2023)</p></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🚨 ANPD × Claro Brasil — Incidente de Segurança</h2>
+<p>Em 2023, a ANPD abriu processo administrativo sancionador contra a <strong>Claro Brasil</strong> após incidente que expôs dados pessoais de clientes: nome, CPF, endereço, dados de contrato e histórico de consumo.</p>
+<p><strong>Deficiências identificadas pela investigação:</strong></p>
+<ul>
+<li>Funcionários e prestadores tinham acesso a volumes de dados muito superiores ao necessário para suas funções (violação do princípio da minimização)</li>
+<li>Ausência de monitoramento de acessos atípicos a grandes volumes de dados</li>
+<li>Processo de notificação dos titulares considerado insuficiente</li>
+</ul>
+<div class="hl">O caso foi relevante por ser um dos primeiros processos sancionadores de grande porte conduzidos pela ANPD, sinalizando o início de uma fase de aplicação efetiva da lei. <em>(Fontes: Convergência Digital, Teletime, gov.br/anpd)</em></div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>💬 Exercício em Grupo — Questões</h2>
+<p><strong>Grupos de 4–5 pessoas · 75 minutos</strong></p>
+<div class="ex">
+<h3>Questão 1 — Diagnóstico de governança (20 min)</h3>
+<p>Quais princípios da LGPD foram violados? Qual papel de governança (CDO, Data Owner, Custodian, DPO) estava ausente ou funcionando inadequadamente? Justifique.</p></div>
+<div class="ex">
+<h3>Questão 2 — Controles preventivos (25 min)</h3>
+<p>Proponha controles de governança concretos que teriam prevenido ou limitado o incidente. Para cada controle, especifique: o que faz, quem é responsável (papel de governança) e qual princípio da LGPD ele endereça.</p></div>
+<div class="ex">
+<h3>Questão 3 — Transferência para o seu setor (30 min)</h3>
+<p>Quais dados pessoais (ou sensíveis) são tratados no setor do grupo? Qual é a base legal para cada tratamento? Quais são os 3 maiores riscos de violação e quais controles estão ausentes ou insuficientes no setor?</p></div></div>
+
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📌 Síntese da Aula 6</h2>
+<div class="cols"><div class="col">
+<h3>Conceitos centrais</h3><ul>
+<li>Governança é decisão de negócio, não só de TI</li>
+<li>Data Owner decide, DPO garante legalidade, Custodian implementa</li>
+<li>Dado sensível exige base legal específica — nunca opcional</li>
+<li>Privacidade é condição para uso sustentável de dados, não obstáculo</li>
+<li>Data Mesh descentraliza responsabilidade quando a empresa escala</li>
+</ul></div>
+<div class="col">
+<h3>Leituras</h3><ul><li>ANPD. <em>Guia Orientativo para Agentes de Tratamento</em> [gov.br/anpd]</li>
+<li>Lei 13.709/2018 — LGPD — Art. 11 e Art. 18</li>
+<li>Dehghani. <em>Data Mesh</em> — Caps. 1 e 2 (O'Reilly)</li></ul>
+<h3>Próxima aula</h3><p>Roadmap Data-Driven: maturidade analítica, planejamento de 90/180/365 dias e change management.</p>
+</div></div></div>
+
+<div class="slide cover"><h1>Até a Aula 7! 🗺️</h1><p class="sub">Roadmap Data-Driven: do Conceito à Execução</p></div>
+
+</div>
+<div class="nav"><button onclick="prev()">◀</button><button onclick="next()">▶</button></div>
+<div class="counter" id="counter"></div><div class="progress" id="progress"></div>
+<script>
+const slides=document.querySelectorAll(".slide");let cur=0;const total=slides.length;
+function show(n){slides[cur].classList.remove("active");cur=((n%total)+total)%total;slides[cur].classList.add("active");document.getElementById("counter").textContent=(cur+1)+" / "+total;document.getElementById("progress").style.width=((cur+1)/total*100)+"%";}
+function next(){show(cur+1);}function prev(){show(cur-1);}
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"||e.key===" "||e.key==="PageDown"){e.preventDefault();next();}if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();prev();}if(e.key==="Home"){e.preventDefault();show(0);}if(e.key==="End"){e.preventDefault();show(total-1);}});
+let tx=0;document.addEventListener("touchstart",e=>{tx=e.touches[0].clientX;});document.addEventListener("touchend",e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?next():prev();}});show(0);
+</script></body></html>
