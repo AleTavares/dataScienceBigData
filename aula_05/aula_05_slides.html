@@ -1,166 +1,415 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Aula 5 — Qualidade e Confiabilidade dos Dados | Mackenzie</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-<style>*{margin:0;padding:0;box-sizing:border-box;}:root{--red:#CC092F;--red-dark:#9E0724;--red-light:#F9E8EB;--gold:#C4A35A;--white:#FFFFFF;--gray-50:#FAFAFA;--gray-200:#E4E4E7;--gray-500:#71717A;--gray-700:#3F3F46;--gray-900:#18181B;}
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--red:#CC092F;--red-dark:#9E0724;--red-light:#F9E8EB;--gold:#C4A35A;--white:#FFFFFF;--gray-50:#FAFAFA;--gray-200:#E4E4E7;--gray-500:#71717A;--gray-700:#3F3F46;--gray-900:#18181B;}
 html,body{height:100%;overflow:hidden;font-family:"Inter",sans-serif;}body{background:var(--gray-900);}
-.slide{display:none;position:absolute;inset:0;width:100vw;height:100vh;padding:60px 80px;flex-direction:column;background:var(--white);color:var(--gray-900);overflow-y:auto;}
+.slide{display:none;position:absolute;inset:0;width:100vw;height:100vh;padding:58px 76px;flex-direction:column;background:var(--white);color:var(--gray-900);overflow-y:auto;}
 .slide.active{display:flex;}.slide::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--red),var(--red-dark));}
 .slide .mk{position:absolute;top:18px;right:40px;font-size:.7em;font-weight:700;letter-spacing:2px;color:var(--red);}
 .slide.cover{background:linear-gradient(145deg,var(--red),var(--red-dark));color:var(--white);align-items:center;justify-content:center;text-align:center;padding:80px;}.slide.cover::before{display:none;}
 .slide.cover h1{font-size:2.8em;font-weight:800;line-height:1.2;margin-bottom:20px;}.slide.cover .sub{font-size:1.1em;font-weight:300;opacity:.9;margin-bottom:4px;}
 .slide.cover .meta{margin-top:28px;display:inline-flex;gap:16px;background:rgba(255,255,255,.15);padding:10px 24px;border-radius:24px;font-size:.9em;}
 .slide.section{background:var(--gray-900);color:var(--white);align-items:center;justify-content:center;text-align:center;}.slide.section::before{background:var(--gold);}
-.slide.section h2{font-size:2.3em;font-weight:700;margin-bottom:12px;}.slide.section p{font-size:1.05em;color:var(--gray-200);max-width:560px;}
-.slide h2{font-size:1.65em;font-weight:700;color:var(--red);margin-bottom:18px;}.slide h3{font-size:1.1em;font-weight:600;color:var(--gray-700);margin:14px 0 6px;}
-.slide p{font-size:.97em;line-height:1.75;color:var(--gray-700);margin-bottom:8px;}.slide ul,.slide ol{margin:6px 0 10px 26px;}
-.slide li{font-size:.95em;line-height:1.7;color:var(--gray-700);margin-bottom:5px;}.slide strong{color:var(--gray-900);}
-.slide table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.86em;}.slide th{background:var(--red);color:var(--white);padding:9px 13px;text-align:left;font-weight:600;}
-.slide td{padding:8px 13px;border-bottom:1px solid var(--gray-200);}.slide tr:nth-child(even) td{background:var(--gray-50);}
-.slide blockquote{border-left:4px solid var(--gold);background:var(--gray-50);padding:12px 18px;margin:12px 0;border-radius:0 6px 6px 0;font-style:italic;color:var(--gray-700);font-size:.93em;}
-.cols{display:flex;gap:28px;margin:10px 0;}.cols .col{flex:1;}
-.hl{background:var(--red-light);border:1px solid var(--red);padding:12px 18px;border-radius:8px;margin:10px 0;}
-.ex{background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:16px 20px;margin:8px 0;}.ex h3{color:#15803d;margin-top:0;font-size:1em;}
-.cycle{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0;}
-.cstep{flex:1;min-width:130px;border:2px solid var(--red);border-radius:8px;padding:10px;text-align:center;}
-.cstep .n{font-size:1.3em;font-weight:800;color:var(--red);}.cstep p{font-size:.82em;color:var(--gray-700);margin:4px 0 0;}
+.slide.section h2{font-size:2.3em;font-weight:700;margin-bottom:12px;}.slide.section p{font-size:1.05em;color:var(--gray-200);max-width:580px;}
+.slide h2{font-size:1.6em;font-weight:700;color:var(--red);margin-bottom:16px;}
+.slide h3{font-size:1.05em;font-weight:600;color:var(--gray-700);margin:12px 0 5px;}
+.slide p{font-size:.95em;line-height:1.75;color:var(--gray-700);margin-bottom:7px;}
+.slide ul,.slide ol{margin:5px 0 9px 24px;}.slide li{font-size:.93em;line-height:1.7;color:var(--gray-700);margin-bottom:4px;}
+.slide strong{color:var(--gray-900);}
+.slide table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.84em;}
+.slide th{background:var(--red);color:var(--white);padding:8px 12px;text-align:left;font-weight:600;}
+.slide td{padding:7px 12px;border-bottom:1px solid var(--gray-200);vertical-align:top;}
+.slide tr:nth-child(even) td{background:var(--gray-50);}
+.slide blockquote{border-left:4px solid var(--gold);background:var(--gray-50);padding:11px 16px;margin:11px 0;border-radius:0 6px 6px 0;font-style:italic;color:var(--gray-700);font-size:.91em;}
+.cols{display:flex;gap:24px;margin:8px 0;}.cols .col{flex:1;}
+.hl{background:var(--red-light);border:1px solid var(--red);padding:11px 16px;border-radius:8px;margin:9px 0;}
+.hl-blue{background:#eff6ff;border:1px solid #3b82f6;padding:11px 16px;border-radius:8px;margin:9px 0;}
+.ex{background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:14px 18px;margin:7px 0;}.ex h3{color:#15803d;margin-top:0;font-size:.97em;}
+.dim-card{border-radius:8px;padding:12px 14px;margin:5px 0;border-left:4px solid var(--red);background:var(--gray-50);}
+.dim-card .label{font-weight:700;color:var(--red);font-size:.9em;margin-bottom:3px;}
+.dim-card p{font-size:.88em;margin:0;}
+.cycle{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+.cstep{flex:1;min-width:110px;border:2px solid var(--red);border-radius:8px;padding:10px 8px;text-align:center;}
+.cstep .n{font-size:1.3em;font-weight:800;color:var(--red);}.cstep p{font-size:.8em;color:var(--gray-700);margin:3px 0 0;}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.78em;font-weight:600;margin-right:4px;}
+.tag.red{background:var(--red-light);color:var(--red);}.tag.blue{background:#dbeafe;color:#1d4ed8;}.tag.green{background:#dcfce7;color:#15803d;}
 .nav{position:fixed;bottom:24px;right:36px;display:flex;gap:8px;z-index:999;}
 .nav button{background:var(--red);color:var(--white);border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1em;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);}
 .nav button:hover{background:var(--red-dark);}
 .counter{position:fixed;bottom:28px;left:36px;color:var(--gray-500);font-size:.8em;font-weight:500;z-index:999;}
-.progress{position:fixed;bottom:0;left:0;height:3px;background:var(--red);transition:width .3s;z-index:999;}</style></head>
-<body><div id="deck">
+.progress{position:fixed;bottom:0;left:0;height:3px;background:var(--red);transition:width .3s;z-index:999;}
+</style></head><body><div id="deck">
 
+<!-- 1. CAPA -->
 <div class="slide cover active">
 <h1>Qualidade e Confiabilidade<br>dos Dados</h1>
 <p class="sub">Data Science e Big Data — MBA Mackenzie</p>
 <p class="sub">Universidade Presbiteriana Mackenzie</p>
 <div class="meta"><span>📅 Aula 5</span><span>⏱️ 4 horas</span><span>✅ Qualidade</span></div></div>
 
+<!-- 2. OBJETIVOS -->
 <div class="slide"><span class="mk">MACKENZIE</span>
 <h2>🎯 Objetivos da Aula</h2><ol>
 <li>Explicar por que qualidade de dados é um problema de negócio, não apenas técnico</li>
 <li>Identificar e aplicar as 6 dimensões de qualidade de dados</li>
-<li>Calcular e estimar o custo da má qualidade (CODB)</li>
-<li>Descrever o processo de Data Quality como ciclo contínuo</li>
-<li>Compreender o papel do catálogo de dados e do data lineage</li>
+<li>Calcular e comunicar o custo da má qualidade (CODB)</li>
+<li>Descrever o ciclo contínuo de Data Quality e distribuir responsabilidades</li>
+<li>Compreender SLAs de dados, catálogo e data lineage como ferramentas de confiança</li>
 </ol></div>
 
+<!-- 3. SECTION -->
 <div class="slide section"><h2>Parte 1</h2><p>As 6 Dimensões de Qualidade de Dados</p></div>
 
+<!-- 4. DIMENSÕES — VISÃO GERAL -->
 <div class="slide"><span class="mk">MACKENZIE</span>
 <h2>📐 As 6 Dimensões de Qualidade</h2>
 <table>
-<tr><th>Dimensão</th><th>Definição</th><th>Exemplo de problema</th><th>Consequência de negócio</th></tr>
-<tr><td><strong>Completude</strong></td><td>Campo obrigatório preenchido?</td><td>23% dos clientes sem estado cadastrado</td><td>Relatório regional distorcido</td></tr>
-<tr><td><strong>Consistência</strong></td><td>Dados concordam entre sistemas?</td><td>CPF diferente no CRM e no ERP</td><td>Cobrança enviada para destinatário errado</td></tr>
-<tr><td><strong>Precisão</strong></td><td>Reflete a realidade?</td><td>Data de nascimento "01/01/1900"</td><td>Modelo de risco demograficamente viciado</td></tr>
-<tr><td><strong>Oportunidade</strong></td><td>Disponível quando necessário?</td><td>Resultado de venda disponível 45 dias depois</td><td>Análise de tendência sempre defasada</td></tr>
-<tr><td><strong>Unicidade</strong></td><td>Sem duplicatas indesejadas?</td><td>Mesmo cliente com dois cadastros ativos</td><td>Contagem inflada; campanha duplicada</td></tr>
-<tr><td><strong>Validade</strong></td><td>Respeita formatos e regras?</td><td>CEP com 7 dígitos; CNPJ inválido</td><td>Integração falha; relatório regulatório rejeitado</td></tr>
+<tr><th>Dimensão</th><th>Pergunta central</th><th>Exemplo de problema</th><th>Consequência de negócio</th></tr>
+<tr><td><strong>Completude</strong></td><td>Todos os campos obrigatórios estão preenchidos?</td><td>23% dos clientes sem estado cadastrado</td><td>Relatório regional distorcido; viés geográfico em modelos</td></tr>
+<tr><td><strong>Consistência</strong></td><td>Os dados concordam entre sistemas?</td><td>CPF diferente no CRM e no ERP</td><td>Cobrança enviada para destinatário errado</td></tr>
+<tr><td><strong>Precisão</strong></td><td>O dado reflete a realidade?</td><td>Data de nascimento "01/01/1900"</td><td>Modelo de risco viciado; segmentação errada</td></tr>
+<tr><td><strong>Oportunidade</strong></td><td>Está disponível quando necessário?</td><td>Resultado de venda com 45 dias de defasagem</td><td>Reação tardia; perda de oportunidade de mercado</td></tr>
+<tr><td><strong>Unicidade</strong></td><td>Há duplicatas indesejadas?</td><td>Mesmo cliente com dois cadastros ativos</td><td>Contagem inflada; campanha duplicada</td></tr>
+<tr><td><strong>Validade</strong></td><td>Respeita formatos e regras de negócio?</td><td>CEP com 7 dígitos; CNPJ inválido</td><td>Integração falha; relatório regulatório rejeitado</td></tr>
 </table></div>
 
-<div class="slide section"><h2>Parte 2</h2><p>O Custo da Má Qualidade de Dados — CODB</p></div>
-
+<!-- 5. COMPLETUDE E CONSISTÊNCIA — APROFUNDAMENTO -->
 <div class="slide"><span class="mk">MACKENZIE</span>
-<h2>💸 CODB — Custo da Má Qualidade</h2>
-<p>IBM e Gartner estimam que má qualidade de dados custa às organizações entre <strong>15% e 25% da receita operacional</strong> — silenciosamente, a cada semana.</p>
+<h2>📐 Completude e Consistência — O que Realmente Significa</h2>
 <div class="cols">
 <div class="col">
-<h3>Custos diretos</h3>
-<ul><li><strong>Retrabalho:</strong> horas gastas por analistas corrigindo dados manualmente</li>
-<li><strong>Erros operacionais:</strong> cobranças erradas, pedidos cancelados, reprocessamentos</li>
-<li><strong>Multas regulatórias:</strong> ANPD, ANS, Bacen — cada setor tem seu regulador</li></ul>
+<h3>Completude — além do "campo vazio"</h3>
+<ul>
+<li>Campo preenchido com lixo ("N/A", ".", "000") é tão ruim quanto vazio</li>
+<li>Completude parcial é perigosa: modelo treinado com 60% de dados preenchidos aprende padrões do campo vazio, não da realidade</li>
+<li><strong>Regra prática:</strong> defina o limiar mínimo por campo — ex.: CPF deve ser 100%, estado pode tolerar 95%</li>
+</ul>
 </div>
 <div class="col">
-<h3>Custos indiretos</h3>
-<ul><li><strong>Decisões erradas</strong> com dados incorretos — muitas vezes invisíveis</li>
-<li><strong>Perda de confiança</strong> dos usuários nos relatórios — paralisa a cultura data-driven</li>
-<li><strong>Oportunidades perdidas:</strong> análise adiada indefinidamente por falta de qualidade</li></ul>
+<h3>Consistência — o problema da integração</h3>
+<ul>
+<li>Cada sistema tem seu "dialeto": um usa "SP", outro "São Paulo", outro "3550308" (código IBGE)</li>
+<li>Quando os sistemas nunca conversavam, o problema era invisível</li>
+<li>No Data Lake, todos se encontram na camada Silver — e as inconsistências aparecem</li>
+<li><strong>Regra prática:</strong> defina o sistema de referência (golden record) para cada entidade crítica</li>
+</ul>
 </div>
 </div>
-<div class="hl"><strong>Sinal de alerta:</strong> Se a resposta a "você confia nos seus dados?" for "depende de qual relatório", o CODB é alto — e está sendo pago toda semana.</div></div>
+<div class="hl"><strong>Golden Record:</strong> a versão "oficial" e autoritativa de um dado quando múltiplos sistemas têm versões diferentes. Definir o golden record é uma decisão de negócio, não técnica.</div></div>
 
+<!-- 6. PRECISÃO E OPORTUNIDADE — APROFUNDAMENTO -->
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📐 Precisão e Oportunidade — Erros Silenciosos</h2>
+<div class="cols">
+<div class="col">
+<h3>Precisão — quando o dado "existe" mas está errado</h3>
+<ul>
+<li>É a dimensão mais difícil de detectar automaticamente — exige validação de negócio</li>
+<li>Exemplos clássicos: valor de faturamento negativo, peso de paciente de 2 kg, coordenada GPS no oceano</li>
+<li>Impacto em ML: um modelo de previsão de demanda treinado com dados imprecisos aprende os erros como padrão</li>
+<li><strong>Regra prática:</strong> defina faixas de valores aceitáveis (ex.: faturamento entre R$ 0 e R$ 10M por operação) e sinalize outliers para revisão</li>
+</ul>
+</div>
+<div class="col">
+<h3>Oportunidade — dado certo na hora errada</h3>
+<ul>
+<li>Um dado perfeito com 30 dias de atraso pode valer menos que um dado imperfeito em tempo real</li>
+<li>A latência aceitável varia radicalmente por caso de uso:</li>
+</ul>
+<table>
+<tr><th>Caso de uso</th><th>Latência máxima</th></tr>
+<tr><td>Detecção de fraude</td><td>&lt; 100 ms</td></tr>
+<tr><td>Recomendação em app</td><td>&lt; 1 segundo</td></tr>
+<tr><td>Dashboard executivo</td><td>&lt; 24 horas</td></tr>
+<tr><td>Relatório regulatório mensal</td><td>Até 30 dias</td></tr>
+</table>
+</div>
+</div></div>
+
+<!-- 7. UNICIDADE E VALIDADE — APROFUNDAMENTO -->
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📐 Unicidade e Validade — Problemas de Processo</h2>
+<div class="cols">
+<div class="col">
+<h3>Unicidade — o problema da deduplicação</h3>
+<ul>
+<li>Duplicatas surgem de processos, não de má intenção: migrações de sistema, integrações mal feitas, cadastros paralelos em múltiplos canais</li>
+<li>Detectar duplicatas é simples quando o CPF é idêntico; é complexo quando o mesmo cliente aparece como "João Silva" e "J. Silva" com endereços diferentes</li>
+<li>Deduplicação envolve regras de negócio (qual cadastro vence?) e não pode ser feita automaticamente sem aprovação do Data Owner</li>
+</ul>
+</div>
+<div class="col">
+<h3>Validade — conformidade com regras de negócio</h3>
+<ul>
+<li>Validação técnica: CPF tem 11 dígitos — fácil de checar automaticamente</li>
+<li>Validação de negócio: "O CID-10 é compatível com o procedimento realizado?" — exige conhecimento médico</li>
+<li>Validade é relativa ao contexto: um valor válido em um sistema pode ser inválido em outro</li>
+</ul>
+<div class="hl-blue" style="margin-top:10px;">A validação técnica é responsabilidade de TI.<br>A validação de negócio é responsabilidade do Data Owner.</div>
+</div>
+</div></div>
+
+<!-- 8. INTERAÇÃO ENTRE DIMENSÕES -->
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🔗 As Dimensões Não São Independentes</h2>
+<p>Problemas de qualidade se propagam entre dimensões. Entender essa cadeia é essencial para atacar a causa raiz, não os sintomas.</p>
+<div class="cols">
+<div class="col">
+<h3>Exemplo: cadeia de um problema de completude</h3>
+<ol>
+<li><span class="tag red">Completude</span> Campo "tipo de produto" não preenchido em 30% dos pedidos</li>
+<li><span class="tag blue">Consistência</span> Ao integrar com o sistema fiscal, os 30% sem tipo são classificados como "outros"</li>
+<li><span class="tag red">Precisão</span> O relatório de vendas por categoria mostra "outros" como 3ª maior categoria</li>
+<li><span class="tag blue">Oportunidade</span> A equipe comercial passa 2 semanas investigando o relatório antes de descobrir o problema na fonte</li>
+</ol>
+</div>
+<div class="col">
+<h3>Consequência para a gestão de qualidade</h3>
+<ul>
+<li>Corrigir o sintoma (classificar "outros" manualmente) não resolve o problema — é trabalho infinito</li>
+<li>A causa raiz está na etapa de preenchimento do pedido (processo operacional)</li>
+<li>A solução correta: tornar o campo obrigatório no sistema de origem, com lista de valores válidos</li>
+</ul>
+<div class="hl"><strong>Regra de ouro:</strong> problemas de qualidade resolvidos na fonte custam 10x menos do que tratados na integração e 100x menos do que corrigidos no relatório final.</div>
+</div>
+</div></div>
+
+<!-- 9. SECTION CODB -->
+<div class="slide section"><h2>Parte 2</h2><p>O Custo da Má Qualidade de Dados — CODB</p></div>
+
+<!-- 10. CODB CONCEITO -->
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>💸 CODB — O Custo que Ninguém Mede</h2>
+<p>IBM e Gartner estimam que má qualidade de dados custa entre <strong>15% e 25% da receita operacional</strong> das organizações — silenciosamente, toda semana.</p>
+<div class="cols">
+<div class="col">
+<h3>Custos diretos <span class="tag red">visíveis</span></h3>
+<ul>
+<li><strong>Retrabalho:</strong> analistas corrigindo dados manualmente em vez de analisar</li>
+<li><strong>Erros operacionais:</strong> cobranças erradas, notas fiscais canceladas, reprocessamentos</li>
+<li><strong>Multas regulatórias:</strong> ANPD (LGPD), ANS, Bacen, CVM, Receita Federal</li>
+<li><strong>Suporte a clientes:</strong> atendimento para corrigir cadastros e cobranças indevidas</li>
+</ul>
+</div>
+<div class="col">
+<h3>Custos indiretos <span class="tag blue">invisíveis</span></h3>
+<ul>
+<li><strong>Decisões ruins:</strong> estratégias baseadas em análises distorcidas</li>
+<li><strong>Paralisia analítica:</strong> gestores param de confiar nos dashboards</li>
+<li><strong>Oportunidades perdidas:</strong> análise adiada por indefinição sobre qual dado usar</li>
+<li><strong>Dano reputacional:</strong> relatórios errados apresentados para clientes ou reguladores</li>
+</ul>
+</div>
+</div>
+<div class="hl"><strong>Sinal de alerta:</strong> Se a resposta a "você confia nos seus dados?" for "depende de qual relatório", o CODB é alto — e está sendo pago toda semana sem que ninguém veja a fatura.</div></div>
+
+<!-- 11. CODB CÁLCULO E EXEMPLOS -->
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>💸 CODB — Como Estimar e Comunicar ao Board</h2>
+<h3>Fórmula simplificada</h3>
+<table>
+<tr><th>Componente</th><th>Como calcular</th><th>Exemplo</th></tr>
+<tr><td><strong>Retrabalho</strong></td><td>Horas/semana × custo/hora × 52</td><td>5 analistas × 10h/semana × R$ 80/h × 52 = R$ 208.000/ano</td></tr>
+<tr><td><strong>Erros operacionais</strong></td><td>Taxa de erro × volume × custo por erro</td><td>0,5% de pedidos errados × 50.000 pedidos/mês × R$ 150 = R$ 450.000/ano</td></tr>
+<tr><td><strong>Risco regulatório</strong></td><td>Multa estimada × probabilidade</td><td>R$ 2M (multa LGPD) × 10% de prob. = R$ 200.000/ano esperado</td></tr>
+<tr><td><strong>CODB total estimado</strong></td><td>Soma dos componentes</td><td><strong>R$ 858.000/ano</strong> — só com o que é mensurável</td></tr>
+</table>
+<div class="hl-blue"><strong>Como apresentar ao board:</strong> não fale em "qualidade de dados" — fale em "estamos gastando R$ 858.000/ano com dados de má qualidade. Um investimento de R$ 300.000 em processo de DQ retorna em 4 meses."</div></div>
+
+<!-- 12. CODB SETORIAL -->
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>💸 CODB — Impacto por Setor</h2>
+<table>
+<tr><th>Setor</th><th>Problema típico de qualidade</th><th>Custo mensurável</th><th>Custo oculto</th></tr>
+<tr><td><strong>Financeiro</strong></td><td>Cadastro desatualizado de clientes</td><td>Cobranças revertidas, multas do Bacen</td><td>Ofertas de crédito para clientes errados; score calculado incorretamente</td></tr>
+<tr><td><strong>Saúde</strong></td><td>CID incorreto ou procedimento sem código válido</td><td>Glosas de planos de saúde; multas da ANS</td><td>Análise epidemiológica distorcida; gestão de sinistros imprecisa</td></tr>
+<tr><td><strong>Varejo</strong></td><td>Estoque divergente entre ERP e realidade</td><td>Rupturas de estoque; excesso de compras</td><td>Recomendações indevidas; perda de vendas não quantificada</td></tr>
+<tr><td><strong>Logística</strong></td><td>Endereço de entrega inválido</td><td>Reentregas, devolução, reembolso</td><td>Rota ineficiente; NPS prejudicado</td></tr>
+<tr><td><strong>Governo</strong></td><td>Beneficiários com CPF duplicado ou falecido</td><td>Pagamentos indevidos de benefícios</td><td>Políticas públicas baseadas em dados errados</td></tr>
+</table></div>
+
+<!-- 13. SECTION DQ PROCESSO -->
 <div class="slide section"><h2>Parte 3</h2><p>Data Quality como Processo Contínuo</p></div>
 
+<!-- 14. CICLO DQ -->
 <div class="slide"><span class="mk">MACKENZIE</span>
 <h2>🔄 O Ciclo de Data Quality</h2>
 <div class="cycle">
-<div class="cstep"><div class="n">1</div><strong>Definir</strong><p>Regras de qualidade para cada dado</p></div>
-<div class="cstep"><div class="n">2</div><strong>Medir</strong><p>Baseline do estado atual</p></div>
-<div class="cstep"><div class="n">3</div><strong>Monitorar</strong><p>Alertar quando qualidade cair</p></div>
-<div class="cstep"><div class="n">4</div><strong>Corrigir</strong><p>Resolver problemas identificados</p></div>
+<div class="cstep"><div class="n">1</div><strong>Definir</strong><p>Regras e limiares de qualidade por dado</p></div>
+<div class="cstep"><div class="n">2</div><strong>Medir</strong><p>Baseline: estado atual de cada dimensão</p></div>
+<div class="cstep"><div class="n">3</div><strong>Monitorar</strong><p>Alertas automáticos quando qualidade cai</p></div>
+<div class="cstep"><div class="n">4</div><strong>Corrigir</strong><p>Resolver os problemas identificados</p></div>
 <div class="cstep"><div class="n">5</div><strong>Prevenir</strong><p>Atacar a causa raiz na fonte</p></div>
 </div>
+<p><strong>O ciclo não termina</strong> — qualidade de dados é como manutenção de equipamento industrial: parar de fazer é garantir que vai degradar.</p>
 <table>
 <tr><th>Responsabilidade</th><th>Negócio</th><th>TI / Técnico</th></tr>
-<tr><td>Definir regras de qualidade</td><td>✅ Protagonista</td><td>Suporte</td></tr>
+<tr><td>Definir regras e limiares de qualidade</td><td>✅ Protagonista</td><td>Suporte</td></tr>
 <tr><td>Implementar validações automatizadas</td><td>Suporte</td><td>✅ Protagonista</td></tr>
 <tr><td>Aprovar o critério de "dado limpo"</td><td>✅ Protagonista</td><td>Suporte</td></tr>
-<tr><td>Monitorar indicadores e investigar anomalias</td><td>✅ Protagonista</td><td>✅ Protagonista</td></tr>
+<tr><td>Monitorar KPIs de qualidade e investigar anomalias</td><td>✅ Protagonista</td><td>✅ Protagonista</td></tr>
+<tr><td>Corrigir na fonte (sistema de origem)</td><td>✅ Protagonista</td><td>Suporte</td></tr>
 </table></div>
 
+<!-- 15. SLAs DE DADOS -->
 <div class="slide"><span class="mk">MACKENZIE</span>
-<h2>📚 Catálogo de Dados e Data Lineage</h2>
+<h2>📋 SLAs de Dados — Qualidade com Compromisso Formal</h2>
+<p>Um <strong>SLA de dados</strong> (Service Level Agreement) é um acordo formal sobre os níveis mínimos de qualidade esperados para cada fonte ou dataset. Transforma a qualidade de "desejo" em "contrato".</p>
 <div class="cols">
 <div class="col">
-<h3>Catálogo de Dados</h3>
-<p>O <strong>"Google interno"</strong> dos ativos de dados da organização.</p>
-<ul><li>Permite buscar: "quais datasets têm dados de inadimplência?"</li>
-<li>Responde: o que este campo significa? Quem é o dono? Quando foi atualizado?</li>
-<li>Registra quem acessa quais dados e com qual finalidade (essencial para LGPD)</li></ul>
+<h3>O que um SLA de dados define</h3>
+<ul>
+<li><strong>Completude mínima:</strong> ex., campo CPF preenchido em ≥ 99% dos registros</li>
+<li><strong>Latência máxima:</strong> ex., dados de vendas disponíveis em até 2 horas após fechamento</li>
+<li><strong>Taxa de erro máxima:</strong> ex., menos de 0,1% de registros com validade comprometida</li>
+<li><strong>Frequência de atualização:</strong> ex., atualização diária até as 06h</li>
+<li><strong>Responsável pelo SLA:</strong> o Data Owner assina</li>
+</ul>
 </div>
 <div class="col">
-<h3>Data Lineage</h3>
-<p>A <strong>rastreabilidade</strong> do caminho percorrido por um dado.</p>
-<ul><li>Responde: "De onde vem o número X deste relatório?"</li>
-<li>Permite rastrear erros até a fonte sem investigação manual</li>
-<li>Essencial para auditorias regulatórias</li></ul>
+<h3>Consequências do SLA</h3>
+<ul>
+<li>Se o SLA não for cumprido, existe um processo de escalação definido</li>
+<li>Métricas de qualidade são monitoradas automaticamente e reportadas periodicamente</li>
+<li>O SLA cria accountability: a área de negócio sabe que é responsável pelo dado que gera</li>
+</ul>
+<div class="hl-blue"><strong>Sem SLA:</strong> qualidade é uma aspiração.<br><strong>Com SLA:</strong> qualidade é uma obrigação mensurável.</div>
 </div>
-</div>
-<blockquote>Metáfora: o catálogo é o cardápio com ingredientes. O lineage é a rastreabilidade da fazenda de origem. Juntos, constroem confiança no que está sendo consumido.</blockquote></div>
+</div></div>
 
-<div class="slide section"><h2>💬 Exercício Discursivo</h2><p>Caso real: Qualidade de dados na saúde pública brasileira — DATASUS</p></div>
-
+<!-- 16. REGRAS DE NEGÓCIO VS TÉCNICAS -->
 <div class="slide"><span class="mk">MACKENZIE</span>
-<h2>🏛️ DATASUS — O Sistema de Informações em Saúde do Brasil</h2>
-<p>O DATASUS concentra dados de internações, procedimentos, mortalidade e nascimentos de todo o sistema público de saúde. Pesquisadores e gestores usam esses dados para tomar decisões sobre políticas públicas e alocação de recursos.</p>
+<h2>⚙️ Regras de Negócio vs. Regras Técnicas</h2>
+<p>Toda validação de qualidade parte de uma regra. É fundamental distinguir quem é responsável por cada tipo.</p>
+<table>
+<tr><th>Tipo</th><th>O que valida</th><th>Responsável por definir</th><th>Responsável por implementar</th><th>Exemplos</th></tr>
+<tr><td><strong>Técnica</strong></td><td>Formato, estrutura, tipo do dado</td><td>TI / Engenharia</td><td>TI / Engenharia</td><td>CPF tem 11 dígitos; data é uma data válida; e-mail contém "@"</td></tr>
+<tr><td><strong>De negócio</strong></td><td>Significado e coerência no contexto da organização</td><td>Data Owner / Área de negócio</td><td>TI / Engenharia</td><td>CID-10 compatível com o procedimento; valor de sinistro dentro da tabela; cliente ativo não pode ter data de cancelamento preenchida</td></tr>
+</table>
+<div class="hl"><strong>Erro clássico:</strong> deixar que a TI defina as regras de negócio. Elas ficam tecnicamente corretas — e semanticamente erradas. O resultado é um pipeline que "passa" na validação mas entrega dados inúteis para o negócio.</div></div>
+
+<!-- 17. SECTION CATÁLOGO -->
+<div class="slide section"><h2>Parte 4</h2><p>Catálogo de Dados e Data Lineage</p></div>
+
+<!-- 18. CATÁLOGO DE DADOS -->
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📚 Catálogo de Dados — O "Google Interno" dos Dados</h2>
+<p>Um catálogo de dados é o inventário gerenciado de todos os ativos de dados da organização — com metadados suficientes para que qualquer pessoa encontre, entenda e confie no dado antes de usá-lo.</p>
+<div class="cols">
+<div class="col">
+<h3>O que um catálogo registra</h3>
+<ul>
+<li><strong>Nome e descrição</strong> do dataset e de cada campo</li>
+<li><strong>Data Owner</strong> e Data Steward responsáveis</li>
+<li><strong>Fonte de origem</strong> e sistema alimentador</li>
+<li><strong>Frequência de atualização</strong> e última carga</li>
+<li><strong>Nível de sensibilidade</strong> (classificação LGPD)</li>
+<li><strong>Score de qualidade</strong> por dimensão</li>
+<li><strong>Quem acessa</strong> e com qual finalidade</li>
+</ul>
+</div>
+<div class="col">
+<h3>Qual problema resolve</h3>
+<ul>
+<li>Sem catálogo: analista passa dias procurando "qual tabela tem o faturamento consolidado?" e "o campo revenue é bruto ou líquido?"</li>
+<li>Com catálogo: busca em segundos, com documentação, histórico e contato do responsável</li>
+</ul>
+<div class="hl-blue"><strong>Resultado mensurável:</strong> empresas com catálogo de dados reportam redução de 40% a 60% no tempo de onboarding de novos analistas e na preparação de relatórios ad hoc.</div>
+</div>
+</div></div>
+
+<!-- 19. DATA LINEAGE -->
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🗺️ Data Lineage — Rastreando o Caminho do Dado</h2>
+<p>Lineage é a capacidade de rastrear o caminho completo percorrido por um dado — da fonte de origem até o relatório ou modelo que o consome.</p>
+<div class="cols">
+<div class="col">
+<h3>O que o lineage responde</h3>
+<ul>
+<li>"De onde vem o número R$ 2,3M neste relatório de faturamento?"</li>
+<li>"Quais dashboards serão afetados se a fonte X mudar de formato?"</li>
+<li>"Este dado passou por quais transformações antes de chegar aqui?"</li>
+<li>"Quem mais usa este dataset? Quem será impactado se eu mudar?"</li>
+</ul>
+</div>
+<div class="col">
+<h3>Tipos de lineage</h3>
+<ul>
+<li><strong>Lineage técnico:</strong> rastreia tabelas, colunas e transformações de código</li>
+<li><strong>Lineage de negócio:</strong> rastreia o fluxo em linguagem de negócio (ex.: "vendas brutas" → "deduções" → "receita líquida")</li>
+<li><strong>Lineage de impacto:</strong> mostra o que é afetado a partir de uma mudança</li>
+</ul>
+<div class="hl"><strong>Essencial para:</strong> auditorias regulatórias, investigação de erros em relatórios, análise de impacto antes de mudanças em sistemas.</div>
+</div>
+</div></div>
+
+<!-- 20. CATÁLOGO + LINEAGE NA PRÁTICA -->
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>📚 Catálogo + Lineage — Juntos na Prática</h2>
+<p>Um dado com alta qualidade mas sem rastreabilidade não gera confiança. Um dado rastreável mas sem documentação não é encontrado. Os dois juntos criam o alicerce da cultura data-driven.</p>
+<table>
+<tr><th>Situação</th><th>Sem catálogo e lineage</th><th>Com catálogo e lineage</th></tr>
+<tr><td>Analista precisa de dados de vendas</td><td>Pergunta para 5 pessoas, recebe 3 respostas diferentes</td><td>Busca no catálogo, encontra em 2 minutos com documentação</td></tr>
+<tr><td>Relatório executivo mostra número errado</td><td>Investigação manual de dias; causa desconhecida</td><td>Lineage rastreia até a fonte em minutos</td></tr>
+<tr><td>Sistema legado vai ser substituído</td><td>Ninguém sabe o que depende desse sistema</td><td>Análise de impacto mostra todos os datasets e dashboards afetados</td></tr>
+<tr><td>Auditoria regulatória solicita origem dos dados</td><td>Equipe gasta semanas reconstruindo o histórico</td><td>Lineage fornece a trilha completa automaticamente</td></tr>
+</table>
+<blockquote>O catálogo é o mapa. O lineage é a rota. Juntos, garantem que ninguém precisa navegar às cegas no Data Lake.</blockquote></div>
+
+<!-- 21. SECTION EXERCÍCIO -->
+<div class="slide section"><h2>💬 Exercício Discursivo</h2><p>Caso real: Qualidade de dados na saúde pública — DATASUS</p></div>
+
+<!-- 22. CASO DATASUS -->
+<div class="slide"><span class="mk">MACKENZIE</span>
+<h2>🏛️ DATASUS — Qualidade de Dados em Escala Nacional</h2>
+<p>O DATASUS concentra dados de internações, procedimentos, mortalidade e nascimentos de todo o sistema público de saúde. Pesquisadores e gestores usam esses dados para decisões sobre políticas públicas e alocação de recursos.</p>
 <p><strong>Problemas documentados academicamente:</strong></p>
 <ul>
-<li><strong>Completude:</strong> campos de escolaridade, raça/cor e ocupação com preenchimento inferior a 60% em diversas bases</li>
-<li><strong>Consistência:</strong> causa de óbito diverge entre declaração de óbito e registros hospitalares</li>
-<li><strong>Oportunidade:</strong> disponibilização dos dados pode levar de 2 a 18 meses após o evento</li>
-<li><strong>Unicidade/Validade:</strong> subnotificação sistemática em municípios menores, criando viés geográfico</li>
+<li><span class="tag red">Completude</span> Escolaridade, raça/cor e ocupação do paciente: preenchimento inferior a 60% em diversas bases</li>
+<li><span class="tag blue">Consistência</span> Causa de óbito diverge entre declaração de óbito e registros hospitalares</li>
+<li><span class="tag red">Oportunidade</span> Disponibilização dos dados leva de 2 a 18 meses após o evento</li>
+<li><span class="tag blue">Unicidade/Validade</span> Subnotificação sistemática em municípios menores — viés geográfico nas análises nacionais</li>
 </ul>
-<div class="hl">Durante a pandemia de COVID-19 (2020–2022), esses problemas tornaram-se críticos: decisões sobre lockdowns e distribuição de leitos de UTI eram tomadas com dados fragmentados e defasados.</div></div>
+<div class="hl">Durante a pandemia de COVID-19 (2020–2022), esses problemas tornaram-se críticos: decisões sobre lockdowns e distribuição de leitos de UTI foram tomadas com dados fragmentados, defasados e, em alguns casos, deliberadamente manipulados por gestores locais para mascarar a situação real.</div></div>
 
+<!-- 23. EXERCÍCIO QUESTÕES -->
 <div class="slide"><span class="mk">MACKENZIE</span>
 <h2>💬 Exercício em Grupo — Questões</h2>
 <p><strong>Grupos de 4–5 pessoas · 70 minutos</strong></p>
 <div class="ex">
 <h3>Questão 1 — Diagnóstico de qualidade (20 min)</h3>
-<p>Para cada problema descrito (completude, consistência, oportunidade, subnotificação), identifique a dimensão de qualidade correspondente. Qual decisão de política pública é comprometida? Qual seria o custo social desse problema?</p></div>
+<p>Classifique cada problema (completude, consistência, defasagem, subnotificação) na dimensão correspondente. Para cada um: qual decisão de política pública é comprometida? Qual seria o custo social desse problema de qualidade?</p></div>
 <div class="ex">
-<h3>Questão 2 — Responsabilidades e ciclo de DQ (25 min)</h3>
-<p>Quem seria o "Data Owner" dos dados de internações, mortalidade e procedimentos? Como um processo de monitoramento contínuo funcionaria em um sistema federado (hospitais → municípios → estados → Ministério)? Qual mudança no processo de geração teria maior impacto?</p></div>
+<h3>Questão 2 — Responsabilidades, SLAs e ciclo de DQ (25 min)</h3>
+<p>Quem seria o Data Owner de cada tipo de dado (internações, mortalidade, procedimentos)? Que SLAs seriam razoáveis para cada base? Como um ciclo de monitoramento contínuo funcionaria em um sistema federado (hospitais → municípios → estados → Ministério)?</p></div>
 <div class="ex">
 <h3>Questão 3 — Transferência para o seu setor (25 min)</h3>
-<p>Identifique no setor do grupo um sistema crítico com problemas crônicos de qualidade conhecidos: quais dimensões estão comprometidas, qual decisão importante é tomada com esses dados, e qual seria a intervenção de maior impacto?</p></div></div>
+<p>Identifique no setor do grupo um sistema crítico com problemas crônicos de qualidade: quais dimensões estão comprometidas, qual decisão importante é tomada com esses dados, e qual seria a intervenção de maior impacto — na fonte, no processo de integração ou no monitoramento?</p></div></div>
 
+<!-- 24. SÍNTESE -->
 <div class="slide"><span class="mk">MACKENZIE</span>
 <h2>📌 Síntese da Aula 5</h2>
 <div class="cols"><div class="col">
 <h3>Conceitos centrais</h3><ul>
-<li>Qualidade tem 6 dimensões — cada uma com impacto de negócio distinto</li>
-<li>CODB: dado ruim tem custo real e mensurável, mesmo que invisível</li>
-<li>Data Quality é ciclo contínuo — negócio define as regras; TI implementa</li>
-<li>Catálogo + lineage = confiança rastreável nos dados</li>
+<li>Qualidade tem 6 dimensões — cada uma com impacto de negócio distinto e cadeia de propagação entre elas</li>
+<li>Problemas corrigidos na fonte custam 10–100× menos do que tratados downstream</li>
+<li>CODB é mensurável — apresente em R$, não em "dados de qualidade ruim"</li>
+<li>SLA de dados transforma a qualidade de aspiração em contrato</li>
+<li>Regras de negócio são definidas pelo Data Owner, não pela TI</li>
+<li>Catálogo + lineage = confiança rastreável em cada número</li>
 </ul></div>
 <div class="col">
-<h3>Leituras</h3><ul><li>DAMA. <em>DAMA-DMBOK</em> — Cap. 13: Data Quality</li>
+<h3>Leituras</h3><ul>
+<li>DAMA. <em>DAMA-DMBOK</em> — Cap. 13: Data Quality</li>
+<li>Redman, T.C. <em>Getting in Front on Data</em> (2016)</li>
 <li>IBM. <em>The real cost of poor data quality</em></li></ul>
-<h3>Próxima aula</h3><p>Governança, Privacidade e LGPD: papéis, bases legais e Data Mesh.</p>
+<h3>Próxima aula</h3>
+<p>Governança, Privacidade e LGPD: papéis de governança, bases legais e o modelo de Data Mesh.</p>
 </div></div></div>
 
+<!-- 25. CAPA FINAL -->
 <div class="slide cover"><h1>Até a Aula 6! 🔐</h1><p class="sub">Governança, Privacidade e LGPD</p></div>
 
 </div>
